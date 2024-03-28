@@ -1,2 +1,43 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Thu, 28 Mar 2024 11:05:13 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Thu, 28 Mar 2024 11:10:02 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>字节面试题目</title><link>https://stayt2.github.io/post/zi-jie-mian-shi-ti-mu.html</link><description>&gt; 给定一个数n，如23121;给定一组数字A如{2,4,9}，求由A中元素组成的小于n的最大数，如小于23121的最大数为 22999&#13;
+&#13;
+```python&#13;
+def find_max_less_than_n(n, A):&#13;
+    # 将n转化为字符数组，方便处理每一位数字&#13;
+    digits = list(str(n))&#13;
+    # 对A进行排序，确保可以从大到小尝试&#13;
+    A = sorted(A, reverse=True)&#13;
+    &#13;
+    def backtrack(index):&#13;
+        if index &lt; 0:&#13;
+            # 如果回溯超出最高位，则返回A中最大元素组成的小于n的最大数&#13;
+            return str(A[0]) * int(len(digits)-1)&#13;
+        &#13;
+        original = int(digits[index])  # 保存原始数字&#13;
+        for a in A:&#13;
+            # 从大到小尝试替换当前位的数字&#13;
+            if a &lt; original:&#13;
+                digits[index] = str(a)&#13;
+                # 将后面的所有位替换成A中最大的数字&#13;
+                for i in range(index + 1, len(digits)):&#13;
+                    digits[i] = str(A[0])&#13;
+                return ''.join(digits)&#13;
+        # 如果所有的数字都不能替换当前位&#13;
+        # 那么回溯到上一位&#13;
+        digits[index] = str(original)&#13;
+        return backtrack(index - 1)&#13;
+    &#13;
+    # 从最高位开始回溯&#13;
+    return backtrack(len(digits) - 1)&#13;
+&#13;
+# 给定的数字&#13;
+n = 23121&#13;
+# 给定的数字集合A&#13;
+A = [2, 4, 9]&#13;
+# 打印结果&#13;
+print(find_max_less_than_n(n, A))  # 输出应该是22999&#13;
+&#13;
+# 对于第二个例子&#13;
+n = 22121&#13;
+print(find_max_less_than_n(n, A))  # 输出应该是9999&#13;
+```。</description><guid isPermaLink="true">https://stayt2.github.io/post/zi-jie-mian-shi-ti-mu.html</guid><pubDate>Thu, 28 Mar 2024 11:04:52 +0000</pubDate></item></channel></rss>
