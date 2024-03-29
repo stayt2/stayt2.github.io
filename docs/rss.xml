@@ -1,5 +1,18 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Thu, 28 Mar 2024 11:10:02 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>字节面试题目</title><link>https://stayt2.github.io/post/zi-jie-mian-shi-ti-mu.html</link><description>&gt; 给定一个数n，如23121;给定一组数字A如{2,4,9}，求由A中元素组成的小于n的最大数，如小于23121的最大数为 22999&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Fri, 29 Mar 2024 13:59:21 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>多头注意力机制1</title><link>https://stayt2.github.io/post/duo-tou-zhu-yi-li-ji-zhi-1.html</link><description># 介绍&#13;
+1964 年的 Nadaraya-Waston 核回归（kernel regression）正是具有 注意力机制（attention mechanism）的机器学习的简单演示:&#13;
+&#13;
+$$&#13;
+f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i,&#13;
+$$&#13;
+&#13;
+可以重写为&#13;
+&#13;
+$$&#13;
+f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,&#13;
+$$&#13;
+&#13;
+其中 $x$ 是查询， $(x_i, y_i)$  是键值对，又叫注意力权重。</description><guid isPermaLink="true">https://stayt2.github.io/post/duo-tou-zhu-yi-li-ji-zhi-1.html</guid><pubDate>Fri, 29 Mar 2024 13:58:52 +0000</pubDate></item><item><title>字节面试题目</title><link>https://stayt2.github.io/post/zi-jie-mian-shi-ti-mu.html</link><description>&gt; 给定一个数n，如23121;给定一组数字A如{2,4,9}，求由A中元素组成的小于n的最大数，如小于23121的最大数为 22999&#13;
 &#13;
 ```python&#13;
 def find_max_less_than_n(n, A):&#13;
