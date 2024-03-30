@@ -1,5 +1,11 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Sat, 30 Mar 2024 12:18:25 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>自注意力机制</title><link>https://stayt2.github.io/post/zi-zhu-yi-li-ji-zhi.html</link><description>由于查询、键和值来自同一组输入，因此被称为 自注意力（self-attention），直接用**MultiHeadAttention** 代码就行&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Sat, 30 Mar 2024 13:57:51 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>Transformer, ViT 和 预训练</title><link>https://stayt2.github.io/post/Transformer%2C%20ViT%20-he-%20-yu-xun-lian.html</link><description>&#13;
+&#13;
+&lt;div align=center&gt;&#13;
+&lt;img src="https://github.com/stayt2/stayt2.github.io/assets/164723455/f3252d43-98b3-4a62-9f65-a5aa98a0c7d9" width="50%" height="50%" /&gt;&#13;
+&lt;/div&gt;&#13;
+&#13;
+。</description><guid isPermaLink="true">https://stayt2.github.io/post/Transformer%2C%20ViT%20-he-%20-yu-xun-lian.html</guid><pubDate>Sat, 30 Mar 2024 13:57:27 +0000</pubDate></item><item><title>自注意力机制</title><link>https://stayt2.github.io/post/zi-zhu-yi-li-ji-zhi.html</link><description>由于查询、键和值来自同一组输入，因此被称为 自注意力（self-attention），直接用**MultiHeadAttention** 代码就行&#13;
 &#13;
 - 和 CNN/RNN 对比：&#13;
 &#13;
