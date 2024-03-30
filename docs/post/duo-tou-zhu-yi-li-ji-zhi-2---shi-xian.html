@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href="//cdn.staticfile.net/Primer/21.0.7/primer.css" rel="stylesheet" />
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <script>
+        if(localStorage.getItem("meek_theme")==null){}
+        else if(localStorage.getItem("meek_theme")=="dark"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";}
+        else if(localStorage.getItem("meek_theme")=="light"){document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";}
+    </script>
+    
+<meta name="description" content="多头注意力机制2--实现">
+<title>多头注意力机制2--实现</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">多头注意力机制2--实现</h1>
+<div class="title-right">
+    
+    <a href="https://stayt2.github.io"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+
+    
+    <a href="https://github.com/stayt2/stayt2.github.io/issues/4" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </button></a>
+    
+
+    <button class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </button>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>多头注意力的基本思想是将模型的注意力分散到不同的表示子空间中，每个头<strong>学习序列中不同的部分</strong>。</p>
+<p>给定查询 $\mathbf{q} \in \mathbb{R}^{d_q}$ 、键 $\mathbf{k} \in \mathbb{R}^{d_k}$和 值 $\mathbf{v} \in \mathbb{R}^{d_v}$ ，每个注意力头 $\mathbf{h}_i(i=1, \ldots, h)$ 的计算方法为：</p>
+<p>$$
+\mathbf{h}_i=f\left(\mathbf{W}_i^{(q)} \mathbf{q}, \mathbf{W}_i^{(k)} \mathbf{k}, \mathbf{W}_i^{(v)} \mathbf{v}\right) \in \mathbb{R}^{p_v},
+$$</p>
+<p>其中, 可学习的参数包括 $\mathbf{W}_i^{(q)} \in \mathbb{R}^{p_q \times d_q} 、 \mathbf{W}_i^{(k)} \in \mathbb{R}^{p_k \times d_k}$ 和 $\mathbf{W}_i^{(v)} \in \mathbb{R}^{p_v \times d_v}$, 以及代表注意力汇聚的函数 $f$ 可以是加性注意力和缩放点积注意力。多头注意力的输出需要经过另一个线性转换, 它对应着 $h$ 个头连结后的结果, 因此其可学习参数是 $\mathbf{W}_o \in \mathbb{R}^{p_o \times h p_v}$ :</p>
+<p>$$
+\mathbf{W}_o\left[\begin{array}{c}
+\mathbf{h}_1 \\
+\vdots \\
+\mathbf{h}_h
+\end{array}\right] \in \mathbb{R}^{p_o} .
+$$</p>
+<p>基于这种设计，每个头都可能会关注输入的不同部分，可以表示比简单加权平均值更复杂的函数，或者写成这样：</p>
+<p>$$
+\begin{gathered}
+\text{MultiHead}(\mathbf{Q}, \mathbf{K}, \mathbf{V})=\left[\text{head}_1, \ldots, \text { head }_h\right] \mathbf{W}_0 \\
+\text { where head }_i=\text{Attention}\left(\mathbf{Q} \mathbf{W}_i^Q, \mathbf{K} \mathbf{W}_i^K, \mathbf{V} \mathbf{W}_i^V\right)
+\end{gathered}
+$$</p>
+<div align="center">
+<a target="_blank" rel="noopener noreferrer nofollow" href="https://camo.githubusercontent.com/b29b58a59f17246873d9c1a53fb7a8045ece5f4ae11afaf09ea80f96a2ba8f5b/68747470733a2f2f70726f64756374696f6e2d6d656469612e70617065727377697468636f64652e636f6d2f6d6574686f64732f6d756c74692d686561642d617474656e74696f6e5f6c3141334737612e706e67"><img src="https://camo.githubusercontent.com/b29b58a59f17246873d9c1a53fb7a8045ece5f4ae11afaf09ea80f96a2ba8f5b/68747470733a2f2f70726f64756374696f6e2d6d656469612e70617065727377697468636f64652e636f6d2f6d6574686f64732f6d756c74692d686561642d617474656e74696f6e5f6c3141334737612e706e67" width="50%" height="50%" data-canonical-src="https://production-media.paperswithcode.com/methods/multi-head-attention_l1A3G7a.png" style="max-width: 100%;"></a>
+</div>
+# 自己实现多头注意力机制
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">import</span> <span class="pl-s1">math</span>
+<span class="pl-k">import</span> <span class="pl-s1">torch</span>
+<span class="pl-k">import</span> <span class="pl-s1">torch</span>.<span class="pl-s1">nn</span> <span class="pl-k">as</span> <span class="pl-s1">nn</span>
+<span class="pl-k">import</span> <span class="pl-s1">torch</span>.<span class="pl-s1">nn</span>.<span class="pl-s1">functional</span> <span class="pl-k">as</span> <span class="pl-v">F</span>
+
+<span class="pl-k">class</span> <span class="pl-v">MultiHeadAttention</span>(<span class="pl-s1">nn</span>.<span class="pl-v">Module</span>):
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">query_size</span>, <span class="pl-s1">key_size</span>, <span class="pl-s1">value_size</span>, <span class="pl-s1">num_hiddens</span>, <span class="pl-s1">num_heads</span>, <span class="pl-s1">dropout</span><span class="pl-c1">=</span><span class="pl-c1">0.0</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-c1">True</span>):
+        <span class="pl-en">super</span>(<span class="pl-v">MultiHeadAttention</span>, <span class="pl-s1">self</span>).<span class="pl-en">__init__</span>()
+        <span class="pl-c"># num_hiddens：隐藏单元的数量。</span>
+        <span class="pl-c"># num_heads：注意力头的数量。</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">num_heads</span> <span class="pl-c1">=</span> <span class="pl-s1">num_heads</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">head_dim</span> <span class="pl-c1">=</span> <span class="pl-s1">num_hiddens</span> <span class="pl-c1">//</span> <span class="pl-s1">num_heads</span>
+
+        <span class="pl-k">assert</span> <span class="pl-s1">num_hiddens</span> <span class="pl-c1">%</span> <span class="pl-s1">num_heads</span> <span class="pl-c1">==</span> <span class="pl-c1">0</span>, <span class="pl-s">"num_hiddens must be divisible by num_heads"</span>
+        <span class="pl-c"># 每个头可以得到一个大小相等的表示向量，确保隐藏层的维数可以平均分配到每个头上。</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">scale</span> <span class="pl-c1">=</span> <span class="pl-s1">math</span>.<span class="pl-en">sqrt</span>(<span class="pl-s1">self</span>.<span class="pl-s1">head_dim</span>)
+
+        <span class="pl-c"># 定义线性层</span>
+        <span class="pl-s1">self</span>.<span class="pl-v">W_q</span> <span class="pl-c1">=</span> <span class="pl-s1">nn</span>.<span class="pl-v">Linear</span>(<span class="pl-s1">query_size</span>, <span class="pl-s1">num_hiddens</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-s1">bias</span>)
+        <span class="pl-s1">self</span>.<span class="pl-v">W_k</span> <span class="pl-c1">=</span> <span class="pl-s1">nn</span>.<span class="pl-v">Linear</span>(<span class="pl-s1">key_size</span>, <span class="pl-s1">num_hiddens</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-s1">bias</span>)
+        <span class="pl-s1">self</span>.<span class="pl-v">W_v</span> <span class="pl-c1">=</span> <span class="pl-s1">nn</span>.<span class="pl-v">Linear</span>(<span class="pl-s1">value_size</span>, <span class="pl-s1">num_hiddens</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-s1">bias</span>)
+        <span class="pl-s1">self</span>.<span class="pl-v">W_o</span> <span class="pl-c1">=</span> <span class="pl-s1">nn</span>.<span class="pl-v">Linear</span>(<span class="pl-s1">num_hiddens</span>, <span class="pl-s1">num_hiddens</span>, <span class="pl-s1">bias</span><span class="pl-c1">=</span><span class="pl-s1">bias</span>)
+
+        <span class="pl-c"># 正则化</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">dropout</span> <span class="pl-c1">=</span> <span class="pl-s1">nn</span>.<span class="pl-v">Dropout</span>(<span class="pl-s1">dropout</span>)
+
+    <span class="pl-k">def</span> <span class="pl-en">forward</span>(<span class="pl-s1">self</span>, <span class="pl-s1">query</span>, <span class="pl-s1">key</span>, <span class="pl-s1">value</span>, <span class="pl-s1">mask</span><span class="pl-c1">=</span><span class="pl-c1">None</span>):
+        <span class="pl-s1">batch_size</span> <span class="pl-c1">=</span> <span class="pl-s1">query</span>.<span class="pl-en">size</span>(<span class="pl-c1">0</span>)
+
+        <span class="pl-c"># Transform query, key, value</span>
+        <span class="pl-c"># self.W_q(query)的意思是：</span>
+            <span class="pl-c"># output = torch.matmul(query, self.W_q.weight.t())</span>
+            <span class="pl-c"># if self.W_q.bias is not None:</span>
+            <span class="pl-c">#     output += self.W_q.bias</span>
+        <span class="pl-s1">query</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-v">W_q</span>(<span class="pl-s1">query</span>).<span class="pl-en">view</span>(<span class="pl-s1">batch_size</span>, <span class="pl-c1">-</span><span class="pl-c1">1</span>, <span class="pl-s1">self</span>.<span class="pl-s1">num_heads</span>, <span class="pl-s1">self</span>.<span class="pl-s1">head_dim</span>)
+        <span class="pl-s1">key</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-v">W_k</span>(<span class="pl-s1">key</span>).<span class="pl-en">view</span>(<span class="pl-s1">batch_size</span>, <span class="pl-c1">-</span><span class="pl-c1">1</span>, <span class="pl-s1">self</span>.<span class="pl-s1">num_heads</span>, <span class="pl-s1">self</span>.<span class="pl-s1">head_dim</span>)
+        <span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-v">W_v</span>(<span class="pl-s1">value</span>).<span class="pl-en">view</span>(<span class="pl-s1">batch_size</span>, <span class="pl-c1">-</span><span class="pl-c1">1</span>, <span class="pl-s1">self</span>.<span class="pl-s1">num_heads</span>, <span class="pl-s1">self</span>.<span class="pl-s1">head_dim</span>)
+
+        <span class="pl-c"># 统一变化为 [batch_size, num_heads, seq_length, head_dim]</span>
+        <span class="pl-s1">query</span> <span class="pl-c1">=</span> <span class="pl-s1">query</span>.<span class="pl-en">transpose</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>)
+        <span class="pl-s1">key</span> <span class="pl-c1">=</span> <span class="pl-s1">key</span>.<span class="pl-en">transpose</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>)
+        <span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">value</span>.<span class="pl-en">transpose</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>)
+
+        <span class="pl-c"># 使用点积注意力机制计算分数，即 query 和 key 的转置乘积，然后除以缩放因子 self.scale（为了防止梯度消失或爆炸）。注意力分数表示 query 和 key 之间的相似性。</span>
+        <span class="pl-s1">scores</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">matmul</span>(<span class="pl-s1">query</span>, <span class="pl-s1">key</span>.<span class="pl-en">transpose</span>(<span class="pl-c1">-</span><span class="pl-c1">2</span>, <span class="pl-c1">-</span><span class="pl-c1">1</span>)) <span class="pl-c1">/</span> <span class="pl-s1">self</span>.<span class="pl-s1">scale</span>
+
+        <span class="pl-k">if</span> <span class="pl-s1">mask</span> <span class="pl-c1">is</span> <span class="pl-c1">not</span> <span class="pl-c1">None</span>:
+            <span class="pl-c"># [batch_size, 1, 1, seq_length] for broadcasting</span>
+            <span class="pl-s1">mask</span> <span class="pl-c1">=</span> <span class="pl-s1">mask</span>.<span class="pl-en">unsqueeze</span>(<span class="pl-c1">1</span>).<span class="pl-en">unsqueeze</span>(<span class="pl-c1">1</span>)
+            <span class="pl-c"># 如果传入了 mask 参数，它会被重塑以适应注意力分数的形状，然后使用 masked_fill 方法将掩码为 0 的位置替换为负无穷。这通常用于屏蔽掉序列中的填充（padding）部分，以免影响注意力分数的计算。</span>
+            <span class="pl-s1">scores</span> <span class="pl-c1">=</span> <span class="pl-s1">scores</span>.<span class="pl-en">masked_fill</span>(<span class="pl-s1">mask</span> <span class="pl-c1">==</span> <span class="pl-c1">0</span>, <span class="pl-en">float</span>(<span class="pl-s">'-inf'</span>))
+
+        <span class="pl-s1">attention_weights</span> <span class="pl-c1">=</span> <span class="pl-v">F</span>.<span class="pl-en">softmax</span>(<span class="pl-s1">scores</span>, <span class="pl-s1">dim</span><span class="pl-c1">=</span><span class="pl-c1">-</span><span class="pl-c1">1</span>)
+        <span class="pl-s1">attention_weights</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">dropout</span>(<span class="pl-s1">attention_weights</span>)
+
+        <span class="pl-c"># 使用注意力权重对 value 进行加权求和，然后将不同头的输出进行合并</span>
+        <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">matmul</span>(<span class="pl-s1">attention_weights</span>, <span class="pl-s1">value</span>)
+        <span class="pl-c"># [batch_size, -1, num_heads * head_dim]</span>
+        <span class="pl-s1">context</span> <span class="pl-c1">=</span> <span class="pl-s1">context</span>.<span class="pl-en">transpose</span>(<span class="pl-c1">1</span>, <span class="pl-c1">2</span>).<span class="pl-en">reshape</span>(<span class="pl-s1">batch_size</span>, <span class="pl-c1">-</span><span class="pl-c1">1</span>, <span class="pl-s1">self</span>.<span class="pl-s1">num_heads</span> <span class="pl-c1">*</span> <span class="pl-s1">self</span>.<span class="pl-s1">head_dim</span>)
+
+        <span class="pl-c"># [batch_size, seq_length, num_hiddens]</span>
+        <span class="pl-s1">output</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-v">W_o</span>(<span class="pl-s1">context</span>)
+
+        <span class="pl-k">return</span> <span class="pl-s1">output</span>, <span class="pl-s1">attention_weights</span>
+
+<span class="pl-c"># Example usage</span>
+<span class="pl-s1">query_size</span> <span class="pl-c1">=</span> <span class="pl-c1">64</span>
+<span class="pl-s1">key_size</span> <span class="pl-c1">=</span> <span class="pl-c1">128</span>
+<span class="pl-s1">value_size</span> <span class="pl-c1">=</span> <span class="pl-c1">256</span>
+<span class="pl-s1">num_hiddens</span> <span class="pl-c1">=</span> <span class="pl-c1">256</span>
+<span class="pl-s1">num_heads</span> <span class="pl-c1">=</span> <span class="pl-c1">4</span>
+<span class="pl-s1">batch_size</span> <span class="pl-c1">=</span> <span class="pl-c1">2</span>
+<span class="pl-s1">seq_length</span> <span class="pl-c1">=</span> <span class="pl-c1">10</span>
+
+<span class="pl-c"># Initialize the multi-head attention layer</span>
+<span class="pl-s1">multi_head_attn</span> <span class="pl-c1">=</span> <span class="pl-v">MultiHeadAttention</span>(<span class="pl-s1">query_size</span>, <span class="pl-s1">key_size</span>, <span class="pl-s1">value_size</span>, <span class="pl-s1">num_hiddens</span>, <span class="pl-s1">num_heads</span>)
+
+<span class="pl-c"># Create dummy input tensors</span>
+<span class="pl-s1">query</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">rand</span>(<span class="pl-s1">batch_size</span>, <span class="pl-s1">seq_length</span>, <span class="pl-s1">query_size</span>)
+<span class="pl-s1">key</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">rand</span>(<span class="pl-s1">batch_size</span>, <span class="pl-s1">seq_length</span>, <span class="pl-s1">key_size</span>)
+<span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">rand</span>(<span class="pl-s1">batch_size</span>, <span class="pl-s1">seq_length</span>, <span class="pl-s1">value_size</span>)
+
+<span class="pl-c"># Forward pass through the multi-head attention layer</span>
+<span class="pl-s1">output</span>, <span class="pl-s1">attention_weights</span> <span class="pl-c1">=</span> <span class="pl-en">multi_head_attn</span>(<span class="pl-s1">query</span>, <span class="pl-s1">key</span>, <span class="pl-s1">value</span>)
+
+<span class="pl-en">print</span>(<span class="pl-s">"Output shape:"</span>, <span class="pl-s1">output</span>.<span class="pl-s1">shape</span>)  <span class="pl-c"># Expected shape: (batch_size, seq_length, num_hiddens)</span>
+<span class="pl-en">print</span>(<span class="pl-s">"Attention weights shape:"</span>, <span class="pl-s1">attention_weights</span>.<span class="pl-s1">shape</span>)  <span class="pl-c"># Expected shape: (batch_size, num_heads, seq_length, seq_length)</span>
+
+
+<span class="pl-s1">mask</span> <span class="pl-c1">=</span> <span class="pl-s1">torch</span>.<span class="pl-en">zeros</span>(<span class="pl-s1">batch_size</span>, <span class="pl-s1">seq_length</span>, <span class="pl-s1">dtype</span><span class="pl-c1">=</span><span class="pl-s1">torch</span>.<span class="pl-s1">bool</span>)
+<span class="pl-s1">mask</span>[:, <span class="pl-c1">4</span>:] <span class="pl-c1">=</span> <span class="pl-c1">1</span>  <span class="pl-c"># 假设序列中从第5个位置开始是padding</span>
+
+<span class="pl-c"># Forward pass through the multi-head attention layer with mask</span>
+<span class="pl-s1">output</span>, <span class="pl-s1">attention_weights</span> <span class="pl-c1">=</span> <span class="pl-en">multi_head_attn</span>(<span class="pl-s1">query</span>, <span class="pl-s1">key</span>, <span class="pl-s1">value</span>, <span class="pl-s1">mask</span><span class="pl-c1">=</span><span class="pl-s1">mask</span>)
+
+<span class="pl-en">print</span>(<span class="pl-s">"Mask output shape:"</span>, <span class="pl-s1">output</span>.<span class="pl-s1">shape</span>)  <span class="pl-c"># Expected shape: (batch_size, seq_length, num_hiddens)</span>
+<span class="pl-en">print</span>(<span class="pl-s">"Mask attention weights shape:"</span>, <span class="pl-s1">attention_weights</span>.<span class="pl-s1">shape</span>)  <span class="pl-c"># Expected shape: (batch_size, num_heads, seq_length, seq_length)</span></pre></div></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+</div>
+    <div id="footer">Copyright © <span id="year"></span><a href="https://stayt2.github.io"> 笔记 </a>
+<p>
+<span id="runday"></span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a>
+</p>
+
+<script>
+if(""!=""){
+    var now=new Date();
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("year").innerHTML=now.getFullYear();
+    if(""!=""){document.getElementById("runday").innerHTML=" • "+"网站运行"+diffDay+"天"+" • ";}
+    else{document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";}
+}
+</script>
+</div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z'};
+var utterancesLoad=0;
+if(localStorage.getItem("meek_theme")==null){localStorage.setItem("meek_theme","light");changeLight();}
+else if(localStorage.getItem("meek_theme")=="dark"){changeDark();}
+else if(localStorage.getItem("meek_theme")=="light"){changeLight();}
+
+function changeDark(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="dark";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["moon"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#00f0ff";
+    if(utterancesLoad==1){utterancesTheme("dark-blue");}
+}
+function changeLight(){
+    document.getElementsByTagName("html")[0].attributes.getNamedItem("data-color-mode").value="light";
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList["sun"]);
+    document.getElementById("themeSwitch").parentNode.style.color="#ff5000";
+    if(utterancesLoad==1){utterancesTheme("github-light");}
+}
+function modeSwitch(){
+    if(document.getElementsByTagName("html")[0].attributes[0].value=="light"){changeDark();localStorage.setItem("meek_theme","dark");}
+    else{changeLight();localStorage.setItem("meek_theme","light");}
+}
+function utterancesTheme(theme){
+    const message = {type: 'set-theme',theme: theme};
+    const iframe = document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message, 'https://utteranc.es');
+}
+
+console.log("\n %c Gmeek last %c https://github.com/Meekdai/Gmeek \n\n", "color: #fff; background-image: linear-gradient(90deg, rgb(47, 172, 178) 0%, rgb(45, 190, 96) 100%); padding:5px 1px;", "background-image: linear-gradient(90deg, rgb(45, 190, 96) 0%, rgb(255, 255, 255) 100%); padding:5px 0;");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","stayt2/stayt2.github.io");
+    script.setAttribute("issue-term","title");
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else{script.setAttribute("theme","github-light");}
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+</script>
+
+
+<script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</html>
