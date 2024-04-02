@@ -9,9 +9,9 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="多头注意力机制1">
-<title>多头注意力机制1</title>
-
+<meta name="description" content="快手题目">
+<title>快手题目</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
 
 </head>
 <style>
@@ -41,7 +41,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">多头注意力机制1</h1>
+<h1 class="postTitle">快手题目</h1>
 <div class="title-right">
     
     <a href="https://stayt2.github.io"><button id="buttonHome" class="btn btn-invisible circle" title="首页">
@@ -51,7 +51,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
     </button></a>
 
     
-    <a href="https://github.com/stayt2/stayt2.github.io/issues/2" target="_blank"><button class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/stayt2/stayt2.github.io/issues/9" target="_blank"><button class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -67,43 +67,52 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><h1>介绍</h1>
-<p>1964 年的 Nadaraya-Waston 核回归（kernel regression）正是具有 注意力机制（attention mechanism）的机器学习的简单演示:</p>
-<p>$$
-f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i,
-$$</p>
-<p>可以重写为</p>
-<p>$$
-f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,
-$$</p>
-<p>其中 $x$ 是查询， $(x_i, y_i)$  是键值对，又叫注意力权重。</p>
-<p>当查询和键是不同长度的矢量时，可以使用可加性注意力评分函数:</p>
-<p>$$
-a(\mathbf q, \mathbf k) = \mathbf w_v^\top \text{tanh}(\mathbf W_q\mathbf q + \mathbf W_k \mathbf k) \in \mathbb{R},
-$$</p>
-<p>当它们的长度相同时，使用缩放的 “点－积” 注意力评分函数的计算效率更高:</p>
-<p>$$
-a(\mathbf q, \mathbf k) = \mathbf{q}^\top \mathbf{k}  /\sqrt{d}.
-$$</p>
-<h2>Bahdanau 注意力模型</h2>
-<p>当键值是同一个东西的时候就是Bahdanau 注意力模型。</p>
-<p>在预测词元时，如果不是所有输入词元都是相关的，那么具有 Bahdanau 注意力的循环神经网络编码器 - 解码器会有选择地统计输入序列的不同部分。这是通过将上下文变量视为加性注意力池化的输出来实现的。</p>
-<p>在循环神经网络编码器 - 解码器中，Bahdanau 注意力将上一时间步的解码器隐状态视为查询，在所有时间步的编码器隐状态同时视为键和值。</p>
-<h2>理论指导实践:</h2>
-<ol>
-<li>自注意力（我查我自己）: 我们想知道句子中某个词在整个句子中的分量（或者相关文本），怎么设计？句子本身乘以三个矩阵得到 Q,K,V，每个词去查整个句子。</li>
-<li>交叉注意力（查别人）:transformer 模型的 decoder 中，由 decoder 的输入经过变换作为 query，由 encoder 的输出作为 key 和 value（数据库）。value 和 query 来自不同的地方，就是交叉注意力。</li>
-</ol>
-<p>可以看到 key 和 value 一定是代表着<strong>同一个东西</strong>。即:[Q,(K,V)]。如果用 encoder 的输出做 value，用 decoder 的输入做 key 和 query 那就完完全全不 make sense 了。所以从宏观上就可以判断谁该作 query，谁该作 value 和 key 。而不是乱设计。</p>
-<p>一个直观的解释：</p>
-<p><strong>q 相当于问题，v 相当于一组答案，k 相当于该答案所对应问题的关键字，q 和 k 计算相似度，用于给 v 赋权重，最终得到问题 q 所对应的合理答案。</strong></p>
-<h1>一些常见的问题：</h1>
-<ol>
-<li>注意力机制与全连接层有啥区别?</li>
-</ol>
+<div class="markdown-body" id="postBody"><h1>滑动窗口问题</h1>
+<p><a href="https://leetcode.cn/problems/minimum-size-subarray-sum/description/" rel="nofollow">https://leetcode.cn/problems/minimum-size-subarray-sum/description/</a></p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">def</span> <span class="pl-en">min_sub_len</span>(<span class="pl-s1">s</span>, <span class="pl-s1">nums</span>):
+    <span class="pl-s1">n</span> <span class="pl-c1">=</span> <span class="pl-en">len</span>(<span class="pl-s1">nums</span>)
+    <span class="pl-s1">min_len</span> <span class="pl-c1">=</span> <span class="pl-en">float</span>(<span class="pl-s">"inf"</span>)  <span class="pl-c"># 初始化最小长度为无穷大</span>
+    <span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 初始化左指针</span>
+    <span class="pl-s1">cur</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 初始化当前和为0</span>
+    <span class="pl-k">for</span> <span class="pl-s1">right</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">n</span>):  <span class="pl-c"># 右指针在数组上滑动</span>
+        <span class="pl-s1">cur</span> <span class="pl-c1">+=</span> <span class="pl-s1">nums</span>[<span class="pl-s1">right</span>]  <span class="pl-c"># 将当前右指针指向的值加到当前和中</span>
+        <span class="pl-k">while</span> <span class="pl-s1">cur</span> <span class="pl-c1">&gt;=</span> <span class="pl-s1">s</span>:  <span class="pl-c"># 当当前和大于等于s时，尝试缩小窗口</span>
+            <span class="pl-s1">min_len</span> <span class="pl-c1">=</span> <span class="pl-en">min</span>(<span class="pl-s1">min_len</span>, <span class="pl-s1">right</span> <span class="pl-c1">-</span> <span class="pl-s1">left</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>)  <span class="pl-c"># 更新最小长度</span>
+            <span class="pl-s1">cur</span> <span class="pl-c1">-=</span> <span class="pl-s1">nums</span>[<span class="pl-s1">left</span>]  <span class="pl-c"># 从当前和中减去左指针指向的值</span>
+            <span class="pl-s1">left</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>  <span class="pl-c"># 移动左指针</span>
+    <span class="pl-k">return</span> <span class="pl-s1">min_len</span> <span class="pl-k">if</span> <span class="pl-s1">min_len</span> <span class="pl-c1">!=</span> <span class="pl-en">float</span>(<span class="pl-s">"inf"</span>) <span class="pl-k">else</span> <span class="pl-c1">0</span>  <span class="pl-c"># 如果找到了子数组，返回最小长度；否则返回0</span></pre></div>
+<p>这个题有个坑的地方就是 while 容易写成 if</p>
+<p>这种方法能找到最小长度的数组，是因为它遵循了两个关键的策略：</p>
+<ul>
+<li>
+<p>策略一：递增窗口以满足最小和要求<br>
+当窗口中的元素总和小于 s 时，我们通过向右移动 right 指针来增加窗口的大小。这样可以确保我们不会错过任何可能满足条件的子数组。</p>
+</li>
+<li>
+<p>策略二：递减窗口以找到最小长度<br>
+一旦窗口的元素总和达到或超过 s，我们就开始通过向右移动 left 指针来减小窗口的大小，同时更新最小长度。这个步骤是关键，因为：</p>
+<ul>
+<li>由于数组中的所有数字都是正数，移动 left 指针（即减小窗口）一定会减少窗口的总和。<br>
+如果在移动 left 之后，窗口的总和仍然大于或等于 s，那么我们可能找到了一个更小的满足条件的子数组。<br>
+如果在移动 left 之后，窗口的总和小于 s，我们停止减小窗口，并再次开始增加窗口大小，直到窗口的总和再次达到或超过 s。</li>
+</ul>
+</li>
+</ul>
 <blockquote>
-<p>注意力机制的意义是引入了权重函数 f，使得权重与输入相关，从而避免了全连接层中权重固定的问题</p>
-</blockquote></div>
+<p>如果你已经实现 O(n) 时间复杂度的解法，请尝试设计一个 O(n log(n)) 时间复杂度的解法。</p>
+</blockquote>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox"> TODO</li>
+</ul>
+<h1>比较版本号</h1>
+<p><a href="https://leetcode.cn/problems/compare-version-numbers/description/" rel="nofollow">https://leetcode.cn/problems/compare-version-numbers/description/</a></p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Solution</span>:
+    <span class="pl-k">def</span> <span class="pl-en">compareVersion</span>(<span class="pl-s1">self</span>, <span class="pl-s1">version1</span>: <span class="pl-s1">str</span>, <span class="pl-s1">version2</span>: <span class="pl-s1">str</span>) <span class="pl-c1">-&gt;</span> <span class="pl-s1">int</span>:
+        <span class="pl-s1">v1</span>, <span class="pl-s1">v2</span> <span class="pl-c1">=</span> <span class="pl-en">list</span>(<span class="pl-en">map</span>(<span class="pl-s1">int</span>, <span class="pl-s1">version1</span>.<span class="pl-en">split</span>(<span class="pl-s">'.'</span>))), <span class="pl-en">list</span>(<span class="pl-en">map</span>(<span class="pl-s1">int</span>, <span class="pl-s1">version2</span>.<span class="pl-en">split</span>(<span class="pl-s">'.'</span>)))
+        <span class="pl-s1">l1</span>, <span class="pl-s1">l2</span> <span class="pl-c1">=</span> <span class="pl-en">len</span>(<span class="pl-s1">v1</span>), <span class="pl-en">len</span>(<span class="pl-s1">v2</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">l1</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">l2</span>: <span class="pl-s1">v1</span> <span class="pl-c1">+=</span> [<span class="pl-c1">0</span>] <span class="pl-c1">*</span> (<span class="pl-s1">l2</span> <span class="pl-c1">-</span> <span class="pl-s1">l1</span>)
+        <span class="pl-k">else</span>:       <span class="pl-s1">v2</span> <span class="pl-c1">+=</span> [<span class="pl-c1">0</span>] <span class="pl-c1">*</span> (<span class="pl-s1">l1</span> <span class="pl-c1">-</span> <span class="pl-s1">l2</span>)
+        <span class="pl-k">return</span> <span class="pl-c1">1</span> <span class="pl-k">if</span> <span class="pl-s1">v1</span> <span class="pl-c1">&gt;</span> <span class="pl-s1">v2</span> <span class="pl-k">else</span> <span class="pl-c1">-</span><span class="pl-c1">1</span> <span class="pl-k">if</span> <span class="pl-s1">v1</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">v2</span> <span class="pl-k">else</span> <span class="pl-c1">0</span></pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
 <div class="comments" id="comments"></div>
@@ -200,5 +209,5 @@ function iFrameLoading(){
 </script>
 
 
-<script>MathJax = {tex: {inlineMath: [["$", "$"], ["\(", "\)"]]}};</script><script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+
 </html>
