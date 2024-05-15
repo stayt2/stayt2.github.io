@@ -9,7 +9,38 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="多头注意力机制1">
+<meta name="description" content="# 介绍
+1964 年的 Nadaraya-Waston 核回归（kernel regression）正是具有 注意力机制（attention mechanism）的机器学习的简单演示:
+
+$$
+f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i,
+$$
+
+可以重写为
+
+$$
+f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,
+$$
+
+其中 $x$ 是查询， $(x_i, y_i)$  是键值对，又叫注意力权重。">
+<meta property="og:title" content="多头注意力机制1">
+<meta property="og:description" content="# 介绍
+1964 年的 Nadaraya-Waston 核回归（kernel regression）正是具有 注意力机制（attention mechanism）的机器学习的简单演示:
+
+$$
+f(x) = \sum_{i=1}^n \frac{K(x - x_i)}{\sum_{j=1}^n K(x - x_j)} y_i,
+$$
+
+可以重写为
+
+$$
+f(x) = \sum_{i=1}^n \alpha(x, x_i) y_i,
+$$
+
+其中 $x$ 是查询， $(x_i, y_i)$  是键值对，又叫注意力权重。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://stayt2.github.io/post/duo-tou-zhu-yi-li-ji-zhi-1.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
 <title>多头注意力机制1</title>
 
 
