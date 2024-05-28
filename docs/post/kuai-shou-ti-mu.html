@@ -16,7 +16,7 @@ https://leetcode.cn/problems/minimum-size-subarray-sum/description/
 ```python
 def min_sub_len(s, nums):
     n = len(nums)
-    min_len = float("inf")  # 初始化最小长度为无穷大
+    min_len = float('inf')  # 初始化最小长度为无穷大
     left = 0  # 初始化左指针
     cur = 0  # 初始化当前和为0
     for right in range(n):  # 右指针在数组上滑动
@@ -25,7 +25,7 @@ def min_sub_len(s, nums):
             min_len = min(min_len, right - left + 1)  # 更新最小长度
             cur -= nums[left]  # 从当前和中减去左指针指向的值
             left += 1  # 移动左指针
-    return min_len if min_len != float("inf") else 0  # 如果找到了子数组，返回最小长度；否则返回0
+    return min_len if min_len != float('inf') else 0  # 如果找到了子数组，返回最小长度；否则返回0
 ```
 这个题有个坑的地方就是 while 容易写成 if 
 
@@ -41,7 +41,7 @@ https://leetcode.cn/problems/minimum-size-subarray-sum/description/
 ```python
 def min_sub_len(s, nums):
     n = len(nums)
-    min_len = float("inf")  # 初始化最小长度为无穷大
+    min_len = float('inf')  # 初始化最小长度为无穷大
     left = 0  # 初始化左指针
     cur = 0  # 初始化当前和为0
     for right in range(n):  # 右指针在数组上滑动
@@ -50,7 +50,7 @@ def min_sub_len(s, nums):
             min_len = min(min_len, right - left + 1)  # 更新最小长度
             cur -= nums[left]  # 从当前和中减去左指针指向的值
             left += 1  # 移动左指针
-    return min_len if min_len != float("inf") else 0  # 如果找到了子数组，返回最小长度；否则返回0
+    return min_len if min_len != float('inf') else 0  # 如果找到了子数组，返回最小长度；否则返回0
 ```
 这个题有个坑的地方就是 while 容易写成 if 
 
@@ -256,7 +256,6 @@ function iFrameLoading(){
     }
 }
 </script>
-
 
 
 </html>
