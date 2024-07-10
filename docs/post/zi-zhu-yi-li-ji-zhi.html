@@ -85,7 +85,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <blockquote>
 <p>卷积神经网络和自注意力都拥有并行计算的优势， 而且自注意力的最大路径长度最短。 但是因为其计算复杂度是关于序列长度的二次方，所以在很长的序列中计算会非常慢。</p>
 </blockquote>
-<table role="table">
+<markdown-accessiblity-table><table role="table">
 <thead>
 <tr>
 <th>模型</th>
@@ -104,7 +104,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <td>训练效率高，可并行化处理</td>
 <td>$$\mathcal{O}(knd^2)$$</td>
 <td>
-$$\mathcal{O}(n/k)$$<sup><a href="#user-content-fn-1-07c5a73e1acd2eecd5e964c436d0e7f2" id="user-content-fnref-1-07c5a73e1acd2eecd5e964c436d0e7f2" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>
+$$\mathcal{O}(n/k)$$<sup><a href="#user-content-fn-1-0a2f03ac103c4b85912648366327c6e6" id="user-content-fnref-1-0a2f03ac103c4b85912648366327c6e6" data-footnote-ref="" aria-describedby="footnote-label">1</a></sup>
 </td>
 </tr>
 <tr>
@@ -124,7 +124,7 @@ $$\mathcal{O}(n/k)$$<sup><a href="#user-content-fn-1-07c5a73e1acd2eecd5e964c436d
 <td>$$\mathcal{O}(1)$$</td>
 </tr>
 </tbody>
-</table>
+</table></markdown-accessiblity-table>
 <h1>位置编码</h1>
 <p>假设输入表示 $\mathbf{X} \in \mathbb{R}^{n \times d}$ 包含一个序列中 $n$个词元的 $d$ 维嵌入表示。位置编码使用相同形状的位置嵌入矩阵 $\mathbf{P} \in \mathbb{R}^{n \times d}$ 输出 $\mathbf{X}+\mathbf{P}$, 矩阵第 $i$ 行、第 $2 j$ 列和 $2 j+1$ 列上的元素为:</p>
 <p>$$
@@ -159,8 +159,8 @@ $$</p>
 <p>卷积神经网络和自注意力都拥有并行计算的优势，而且自注意力的最大路径长度最短。但是因为其计算复杂度是关于序列长度的二次方，所以在很长的序列中计算会非常慢。</p>
 <section data-footnotes="" class="footnotes"><h2 id="footnote-label" class="sr-only">Footnotes</h2>
 <ol>
-<li id="user-content-fn-1-07c5a73e1acd2eecd5e964c436d0e7f2">
-<p>这里指的是常规的卷积，不是<a href="https://arxiv.org/pdf/1706.03762.pdf">Attention Is All You Need</a>里面的扩张卷积 <a href="#user-content-fnref-1-07c5a73e1acd2eecd5e964c436d0e7f2" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
+<li id="user-content-fn-1-0a2f03ac103c4b85912648366327c6e6">
+<p>这里指的是常规的卷积，不是<a href="https://arxiv.org/pdf/1706.03762.pdf">Attention Is All You Need</a>里面的扩张卷积 <a href="#user-content-fnref-1-0a2f03ac103c4b85912648366327c6e6" data-footnote-backref="" aria-label="Back to reference 1" class="data-footnote-backref">↩</a></p>
 </li>
 </ol>
 </section></div>
