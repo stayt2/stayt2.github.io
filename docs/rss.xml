@@ -1,5 +1,15 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Tue, 28 May 2024 16:13:06 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>Beam Search 模板</title><link>https://stayt2.github.io/post/Beam%20Search%20-mo-ban.html</link><description>```python&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title>笔记</title><link>https://stayt2.github.io</link><description>博观而约取，厚积而薄发</description><copyright>笔记</copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://github.githubassets.com/favicons/favicon.svg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Tue, 16 Jul 2024 12:16:48 +0000</lastBuildDate><managingEditor>笔记</managingEditor><ttl>60</ttl><webMaster>笔记</webMaster><item><title>机器学习面试常见问题-easy</title><link>https://stayt2.github.io/post/ji-qi-xue-xi-mian-shi-chang-jian-wen-ti--easy.html</link><description># 数学基础&#13;
+&#13;
+&#13;
+# 硬件/软件基础&#13;
+&#13;
+&#13;
+# 机器学习基础&#13;
+&#13;
+## 通用问题&#13;
+&#13;
+1. 讲讲正则化为什么能降低过拟合程度，并且说明下下 L1 正则化和 L2 正则化。</description><guid isPermaLink="true">https://stayt2.github.io/post/ji-qi-xue-xi-mian-shi-chang-jian-wen-ti--easy.html</guid><pubDate>Tue, 16 Jul 2024 12:16:15 +0000</pubDate></item><item><title>Beam Search 模板</title><link>https://stayt2.github.io/post/Beam%20Search%20-mo-ban.html</link><description>```python&#13;
 &#13;
 import torch&#13;
 import torch.nn.functional as F&#13;
