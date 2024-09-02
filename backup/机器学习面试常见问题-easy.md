@@ -30,3 +30,6 @@
 逻辑回归的本质就是 $y(\boldsymbol{x})=\sigma\left(\boldsymbol{w}^T \boldsymbol{x}\right)$，即此时公式为
 
 $$y=\frac{1}{1+e^{-\left(\boldsymbol{w}^{\mathrm{T}} \boldsymbol{x}+b\right)}} $$
+
+
+<!-- ##{"script":"<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'></script>"}## -->
