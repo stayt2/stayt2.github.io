@@ -6,6 +6,6 @@
     "startSite":"09/03/2024",
     "email":"stayt@mail.nankai.edu.cn",
     "singlePage":["about"],
-    "allHead":"<script src='https://github.com/stayt2/stayt2.github.io/blob/main/static/assets/yifantheme.js'></script>",
+    "allHead":"<script src='<script src='https://raw.githubusercontent.com/stayt2/stayt2.github.io/main/static/assets/yifantheme.js'></script>'></script>",
     "script":"<script src='https://blog.meekdai.com/Gmeek/plugins/articletoc.js'></script>"
 }
