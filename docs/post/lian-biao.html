@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html data-color-mode="light" data-dark-theme="dark" data-light-theme="light" lang="zh-CN">
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="content-type" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link href='https://mirrors.sustech.edu.cn/cdnjs/ajax/libs/Primer/21.0.7/primer.css' rel='stylesheet' />
+    
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg"><script>
+        let theme = localStorage.getItem("meek_theme") || "light";
+        document.documentElement.setAttribute("data-color-mode", theme);
+    </script>
+<meta name="description" content="变体有双向链表，循环链表
+```python
+from llist import sllist, dllist
+
+# 单链表
+sl = sllist([1, 2, 3])
+print(sl)  # 输出: [1, 2, 3]
+
+# 双链表
+dl = dllist([10, 20, 30])
+print(dl)  # 输出: [10, 20, 30]
+```
+```python
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+```
+一个标准有效的 链表是
+
+1. 关键点一、同时持有头尾节点的引用，好处是对于头尾的操作直接是O(1)
+2. 关键点二、虚拟头尾节点, 好处是不会存在越界问题
+
+对应题目： https://leetcode.cn/problems/design-linked-list/submissions/
+
+下面是一个标准的 链表 的实现：
+```python
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        # 初始化虚拟头尾节点
+        self.head = Node()  # 虚拟头节点
+        self.tail = Node()  # 虚拟尾节点
+        self.head.next = self.tail  # 头节点指向尾节点
+        self.size = 0  # 链表的长度
+
+    def is_empty(self):
+        return self.size == 0
+
+    def insert_at_end(self, data):
+        new_node = Node(data)
+        current = self.head
+        while current.next != self.tail:
+            current = current.next
+        current.next = new_node
+        new_node.next = self.tail
+        self.size += 1
+
+    def insert_at_beginning(self, data):
+        new_node = Node(data)
+        new_node.next = self.head.next
+        self.head.next = new_node
+        self.size += 1
+
+    def delete(self, data):
+        current = self.head
+        while current.next != self.tail:
+            if current.next.data == data:
+                current.next = current.next.next
+                self.size -= 1
+                return True
+            current = current.next
+        return False
+
+    def search(self, data):
+        current = self.head.next
+        while current != self.tail:
+            if current.data == data:
+                return True
+            current = current.next
+        return False
+
+    def update(self, old_data, new_data):
+        current = self.head.next
+        while current != self.tail:
+            if current.data == old_data:
+                current.data = new_data
+                return True
+            current = current.next
+        return False
+
+    def display(self):
+        current = self.head.next
+        while current != self.tail:
+            print(current.data, end=' -> ')
+            current = current.next
+        print('None')
+
+    def list_to_linked_list(self, lst):
+        for data in lst:
+            self.insert_at_end(data)
+
+# 使用示例
+ll = LinkedList()
+
+# 插入节点
+ll.insert_at_end(1)
+ll.insert_at_end(2)
+ll.insert_at_end(3)
+ll.display()  # 输出: 1 -> 2 -> 3 -> None
+
+# 在头部插入节点
+ll.insert_at_beginning(0)
+ll.display()  # 输出: 0 -> 1 -> 2 -> 3 -> None
+
+# 删除节点
+ll.delete(2)
+ll.display()  # 输出: 0 -> 1 -> 3 -> None
+
+# 查找节点
+print(ll.search(3))  # 输出: True
+print(ll.search(4))  # 输出: False
+
+# 更新节点
+ll.update(1, 10)
+ll.display()  # 输出: 0 -> 10 -> 3 -> None
+
+# 将列表转换为链表
+ll2 = LinkedList()
+ll2.list_to_linked_list([4, 5, 6])
+ll2.display()  # 输出: 4 -> 5 -> 6 -> None
+
+```
+# 算法
+## 反转链表
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = new_node
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        self.head = prev
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=' -> ')
+            current = current.next
+        print('None')
+
+# 使用示例
+ll = LinkedList()
+ll.append(1)
+ll.append(2)
+ll.append(3)
+ll.display()  # 输出: 1 -> 2 -> 3 -> None
+ll.reverse()
+ll.display()  # 输出: 3 -> 2 -> 1 -> None
+
+```
+
+## 检测链表中的环
+环形链表是指链表中存在一个节点指向之前某个节点的情况。">
+<meta property="og:title" content="链表">
+<meta property="og:description" content="变体有双向链表，循环链表
+```python
+from llist import sllist, dllist
+
+# 单链表
+sl = sllist([1, 2, 3])
+print(sl)  # 输出: [1, 2, 3]
+
+# 双链表
+dl = dllist([10, 20, 30])
+print(dl)  # 输出: [10, 20, 30]
+```
+```python
+class ListNode:
+    def __init__(self, x):
+        self.val = x
+        self.next = None
+```
+一个标准有效的 链表是
+
+1. 关键点一、同时持有头尾节点的引用，好处是对于头尾的操作直接是O(1)
+2. 关键点二、虚拟头尾节点, 好处是不会存在越界问题
+
+对应题目： https://leetcode.cn/problems/design-linked-list/submissions/
+
+下面是一个标准的 链表 的实现：
+```python
+class Node:
+    def __init__(self, data=None):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        # 初始化虚拟头尾节点
+        self.head = Node()  # 虚拟头节点
+        self.tail = Node()  # 虚拟尾节点
+        self.head.next = self.tail  # 头节点指向尾节点
+        self.size = 0  # 链表的长度
+
+    def is_empty(self):
+        return self.size == 0
+
+    def insert_at_end(self, data):
+        new_node = Node(data)
+        current = self.head
+        while current.next != self.tail:
+            current = current.next
+        current.next = new_node
+        new_node.next = self.tail
+        self.size += 1
+
+    def insert_at_beginning(self, data):
+        new_node = Node(data)
+        new_node.next = self.head.next
+        self.head.next = new_node
+        self.size += 1
+
+    def delete(self, data):
+        current = self.head
+        while current.next != self.tail:
+            if current.next.data == data:
+                current.next = current.next.next
+                self.size -= 1
+                return True
+            current = current.next
+        return False
+
+    def search(self, data):
+        current = self.head.next
+        while current != self.tail:
+            if current.data == data:
+                return True
+            current = current.next
+        return False
+
+    def update(self, old_data, new_data):
+        current = self.head.next
+        while current != self.tail:
+            if current.data == old_data:
+                current.data = new_data
+                return True
+            current = current.next
+        return False
+
+    def display(self):
+        current = self.head.next
+        while current != self.tail:
+            print(current.data, end=' -> ')
+            current = current.next
+        print('None')
+
+    def list_to_linked_list(self, lst):
+        for data in lst:
+            self.insert_at_end(data)
+
+# 使用示例
+ll = LinkedList()
+
+# 插入节点
+ll.insert_at_end(1)
+ll.insert_at_end(2)
+ll.insert_at_end(3)
+ll.display()  # 输出: 1 -> 2 -> 3 -> None
+
+# 在头部插入节点
+ll.insert_at_beginning(0)
+ll.display()  # 输出: 0 -> 1 -> 2 -> 3 -> None
+
+# 删除节点
+ll.delete(2)
+ll.display()  # 输出: 0 -> 1 -> 3 -> None
+
+# 查找节点
+print(ll.search(3))  # 输出: True
+print(ll.search(4))  # 输出: False
+
+# 更新节点
+ll.update(1, 10)
+ll.display()  # 输出: 0 -> 10 -> 3 -> None
+
+# 将列表转换为链表
+ll2 = LinkedList()
+ll2.list_to_linked_list([4, 5, 6])
+ll2.display()  # 输出: 4 -> 5 -> 6 -> None
+
+```
+# 算法
+## 反转链表
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+
+    def append(self, data):
+        new_node = Node(data)
+        if not self.head:
+            self.head = new_node
+        else:
+            current = self.head
+            while current.next:
+                current = current.next
+            current.next = new_node
+
+    def reverse(self):
+        prev = None
+        current = self.head
+        while current:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+        self.head = prev
+
+    def display(self):
+        current = self.head
+        while current:
+            print(current.data, end=' -> ')
+            current = current.next
+        print('None')
+
+# 使用示例
+ll = LinkedList()
+ll.append(1)
+ll.append(2)
+ll.append(3)
+ll.display()  # 输出: 1 -> 2 -> 3 -> None
+ll.reverse()
+ll.display()  # 输出: 3 -> 2 -> 1 -> None
+
+```
+
+## 检测链表中的环
+环形链表是指链表中存在一个节点指向之前某个节点的情况。">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://stayt2.github.io/post/lian-biao.html">
+<meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
+<title>链表</title>
+<link href="//unpkg.com/@wooorm/starry-night@2.1.1/style/both.css" rel="stylesheet" />
+
+
+</head>
+<style>
+body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;padding: 45px;font-size: 16px;font-family: sans-serif;line-height: 1.25;}
+#header{display:flex;padding-bottom:8px;border-bottom: 1px solid var(--borderColor-muted, var(--color-border-muted));margin-bottom: 16px;}
+#footer {margin-top:64px; text-align: center;font-size: small;}
+
+</style>
+
+<style>
+.postTitle{margin: auto 0;font-size:40px;font-weight:bold;}
+.title-right{display:flex;margin:auto 0 0 auto;}
+.title-right .circle{padding: 14px 16px;margin-right:8px;}
+#postBody{border-bottom: 1px solid var(--color-border-default);padding-bottom:36px;}
+#postBody hr{height:2px;}
+#cmButton{height:48px;margin-top:48px;}
+#comments{margin-top:64px;}
+.g-emoji{font-size:24px;}
+@media (max-width: 600px) {
+    body {padding: 8px;}
+    .postTitle{font-size:24px;}
+}
+.copy-feedback {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 50px;
+    color: var(--color-fg-on-emphasis);
+    background-color: var(--color-fg-muted);
+    border-radius: 3px;
+    padding: 5px 8px;
+    font-size: 12px;
+}
+</style>
+
+
+
+
+<body>
+    <div id="header">
+<h1 class="postTitle">链表</h1>
+<div class="title-right">
+    <a href="https://stayt2.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathHome" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+    <a href="https://github.com/stayt2/stayt2.github.io/issues/4" target="_blank" class="btn btn-invisible circle" title="Issue">
+        <svg class="octicon" width="16" height="16">
+            <path id="pathIssue" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+    
+
+    <a class="btn btn-invisible circle" onclick="modeSwitch();" title="切换主题">
+        <svg class="octicon" width="16" height="16" >
+            <path id="themeSwitch" fill-rule="evenodd"></path>
+        </svg>
+    </a>
+
+</div>
+</div>
+    <div id="content">
+<div class="markdown-body" id="postBody"><p>变体有双向链表，循环链表</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">from</span> <span class="pl-s1">llist</span> <span class="pl-k">import</span> <span class="pl-s1">sllist</span>, <span class="pl-s1">dllist</span>
+
+<span class="pl-c"># 单链表</span>
+<span class="pl-s1">sl</span> <span class="pl-c1">=</span> <span class="pl-en">sllist</span>([<span class="pl-c1">1</span>, <span class="pl-c1">2</span>, <span class="pl-c1">3</span>])
+<span class="pl-en">print</span>(<span class="pl-s1">sl</span>)  <span class="pl-c"># 输出: [1, 2, 3]</span>
+
+<span class="pl-c"># 双链表</span>
+<span class="pl-s1">dl</span> <span class="pl-c1">=</span> <span class="pl-en">dllist</span>([<span class="pl-c1">10</span>, <span class="pl-c1">20</span>, <span class="pl-c1">30</span>])
+<span class="pl-en">print</span>(<span class="pl-s1">dl</span>)  <span class="pl-c"># 输出: [10, 20, 30]</span></pre></div>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">ListNode</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">x</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">val</span> <span class="pl-c1">=</span> <span class="pl-s1">x</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span></pre></div>
+<p>一个标准有效的 链表是</p>
+<ol>
+<li>关键点一、同时持有头尾节点的引用，好处是对于头尾的操作直接是O(1)</li>
+<li>关键点二、虚拟头尾节点, 好处是不会存在越界问题</li>
+</ol>
+<p>对应题目： <a href="https://leetcode.cn/problems/design-linked-list/submissions/" rel="nofollow">https://leetcode.cn/problems/design-linked-list/submissions/</a></p>
+<p>下面是一个标准的 链表 的实现：</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Node</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span><span class="pl-c1">=</span><span class="pl-c1">None</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">class</span> <span class="pl-v">LinkedList</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>):
+        <span class="pl-c"># 初始化虚拟头尾节点</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>()  <span class="pl-c"># 虚拟头节点</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">tail</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>()  <span class="pl-c"># 虚拟尾节点</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">head</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>  <span class="pl-c"># 头节点指向尾节点</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">size</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 链表的长度</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">is_empty</span>(<span class="pl-s1">self</span>):
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-s1">size</span> <span class="pl-c1">==</span> <span class="pl-c1">0</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">insert_at_end</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">new_node</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-s1">data</span>)
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">!=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>:
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">new_node</span>
+        <span class="pl-s1">new_node</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">size</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">insert_at_beginning</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">new_node</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-s1">data</span>)
+        <span class="pl-s1">new_node</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>.<span class="pl-s1">next</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">head</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">new_node</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">size</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">delete</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">!=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>.<span class="pl-s1">data</span> <span class="pl-c1">==</span> <span class="pl-s1">data</span>:
+                <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>
+                <span class="pl-s1">self</span>.<span class="pl-s1">size</span> <span class="pl-c1">-=</span> <span class="pl-c1">1</span>
+                <span class="pl-k">return</span> <span class="pl-c1">True</span>
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">return</span> <span class="pl-c1">False</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">search</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span> <span class="pl-c1">!=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">current</span>.<span class="pl-s1">data</span> <span class="pl-c1">==</span> <span class="pl-s1">data</span>:
+                <span class="pl-k">return</span> <span class="pl-c1">True</span>
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">return</span> <span class="pl-c1">False</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">update</span>(<span class="pl-s1">self</span>, <span class="pl-s1">old_data</span>, <span class="pl-s1">new_data</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span> <span class="pl-c1">!=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">current</span>.<span class="pl-s1">data</span> <span class="pl-c1">==</span> <span class="pl-s1">old_data</span>:
+                <span class="pl-s1">current</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">new_data</span>
+                <span class="pl-k">return</span> <span class="pl-c1">True</span>
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">return</span> <span class="pl-c1">False</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">display</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span> <span class="pl-c1">!=</span> <span class="pl-s1">self</span>.<span class="pl-s1">tail</span>:
+            <span class="pl-en">print</span>(<span class="pl-s1">current</span>.<span class="pl-s1">data</span>, <span class="pl-s1">end</span><span class="pl-c1">=</span><span class="pl-s">" -&gt; "</span>)
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-en">print</span>(<span class="pl-s">"None"</span>)
+
+    <span class="pl-k">def</span> <span class="pl-en">list_to_linked_list</span>(<span class="pl-s1">self</span>, <span class="pl-s1">lst</span>):
+        <span class="pl-k">for</span> <span class="pl-s1">data</span> <span class="pl-c1">in</span> <span class="pl-s1">lst</span>:
+            <span class="pl-s1">self</span>.<span class="pl-en">insert_at_end</span>(<span class="pl-s1">data</span>)
+
+<span class="pl-c"># 使用示例</span>
+<span class="pl-s1">ll</span> <span class="pl-c1">=</span> <span class="pl-v">LinkedList</span>()
+
+<span class="pl-c"># 插入节点</span>
+<span class="pl-s1">ll</span>.<span class="pl-en">insert_at_end</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">insert_at_end</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">insert_at_end</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 1 -&gt; 2 -&gt; 3 -&gt; None</span>
+
+<span class="pl-c"># 在头部插入节点</span>
+<span class="pl-s1">ll</span>.<span class="pl-en">insert_at_beginning</span>(<span class="pl-c1">0</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 0 -&gt; 1 -&gt; 2 -&gt; 3 -&gt; None</span>
+
+<span class="pl-c"># 删除节点</span>
+<span class="pl-s1">ll</span>.<span class="pl-en">delete</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 0 -&gt; 1 -&gt; 3 -&gt; None</span>
+
+<span class="pl-c"># 查找节点</span>
+<span class="pl-en">print</span>(<span class="pl-s1">ll</span>.<span class="pl-en">search</span>(<span class="pl-c1">3</span>))  <span class="pl-c"># 输出: True</span>
+<span class="pl-en">print</span>(<span class="pl-s1">ll</span>.<span class="pl-en">search</span>(<span class="pl-c1">4</span>))  <span class="pl-c"># 输出: False</span>
+
+<span class="pl-c"># 更新节点</span>
+<span class="pl-s1">ll</span>.<span class="pl-en">update</span>(<span class="pl-c1">1</span>, <span class="pl-c1">10</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 0 -&gt; 10 -&gt; 3 -&gt; None</span>
+
+<span class="pl-c"># 将列表转换为链表</span>
+<span class="pl-s1">ll2</span> <span class="pl-c1">=</span> <span class="pl-v">LinkedList</span>()
+<span class="pl-s1">ll2</span>.<span class="pl-en">list_to_linked_list</span>([<span class="pl-c1">4</span>, <span class="pl-c1">5</span>, <span class="pl-c1">6</span>])
+<span class="pl-s1">ll2</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 4 -&gt; 5 -&gt; 6 -&gt; None</span></pre></div>
+<h1>算法</h1>
+<h2>反转链表</h2>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Node</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">class</span> <span class="pl-v">LinkedList</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">append</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">new_node</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-s1">data</span>)
+        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>:
+            <span class="pl-s1">self</span>.<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-s1">new_node</span>
+        <span class="pl-k">else</span>:
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+            <span class="pl-k">while</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>:
+                <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+            <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">new_node</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">reverse</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">prev</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>:
+            <span class="pl-s1">next_node</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+            <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">prev</span>
+            <span class="pl-s1">prev</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">next_node</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-s1">prev</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">display</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>:
+            <span class="pl-en">print</span>(<span class="pl-s1">current</span>.<span class="pl-s1">data</span>, <span class="pl-s1">end</span><span class="pl-c1">=</span><span class="pl-s">" -&gt; "</span>)
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-en">print</span>(<span class="pl-s">"None"</span>)
+
+<span class="pl-c"># 使用示例</span>
+<span class="pl-s1">ll</span> <span class="pl-c1">=</span> <span class="pl-v">LinkedList</span>()
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 1 -&gt; 2 -&gt; 3 -&gt; None</span>
+<span class="pl-s1">ll</span>.<span class="pl-en">reverse</span>()
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 3 -&gt; 2 -&gt; 1 -&gt; None</span></pre></div>
+<h2>检测链表中的环</h2>
+<p>环形链表是指链表中存在一个节点指向之前某个节点的情况。检测环的方法通常使用快慢指针（Floyd’s Cycle-Finding Algorithm）。</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Node</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">def</span> <span class="pl-en">has_cycle</span>(<span class="pl-s1">head</span>):
+    <span class="pl-s1">slow</span> <span class="pl-c1">=</span> <span class="pl-s1">head</span>
+    <span class="pl-s1">fast</span> <span class="pl-c1">=</span> <span class="pl-s1">head</span>
+    <span class="pl-k">while</span> <span class="pl-s1">fast</span> <span class="pl-c1">and</span> <span class="pl-s1">fast</span>.<span class="pl-s1">next</span>:
+        <span class="pl-s1">slow</span> <span class="pl-c1">=</span> <span class="pl-s1">slow</span>.<span class="pl-s1">next</span>
+        <span class="pl-s1">fast</span> <span class="pl-c1">=</span> <span class="pl-s1">fast</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">if</span> <span class="pl-s1">slow</span> <span class="pl-c1">==</span> <span class="pl-s1">fast</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">True</span>  <span class="pl-c"># 检测到环</span>
+    <span class="pl-k">return</span> <span class="pl-c1">False</span>
+
+<span class="pl-c"># 使用示例</span>
+<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">head</span>  <span class="pl-c"># 创建一个环</span>
+<span class="pl-en">print</span>(<span class="pl-en">has_cycle</span>(<span class="pl-s1">head</span>))  <span class="pl-c"># 输出: True</span></pre></div>
+<h2>合并两个有序链表</h2>
+<p>将两个有序链表合并为一个有序链表是一个常见的算法问题。</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Node</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">def</span> <span class="pl-en">merge_two_sorted_lists</span>(<span class="pl-s1">l1</span>, <span class="pl-s1">l2</span>):
+    <span class="pl-s1">dummy</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">0</span>)
+    <span class="pl-s1">tail</span> <span class="pl-c1">=</span> <span class="pl-s1">dummy</span>
+
+    <span class="pl-k">while</span> <span class="pl-s1">l1</span> <span class="pl-c1">and</span> <span class="pl-s1">l2</span>:
+        <span class="pl-k">if</span> <span class="pl-s1">l1</span>.<span class="pl-s1">data</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">l2</span>.<span class="pl-s1">data</span>:
+            <span class="pl-s1">tail</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">l1</span>
+            <span class="pl-s1">l1</span> <span class="pl-c1">=</span> <span class="pl-s1">l1</span>.<span class="pl-s1">next</span>
+        <span class="pl-k">else</span>:
+            <span class="pl-s1">tail</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">l2</span>
+            <span class="pl-s1">l2</span> <span class="pl-c1">=</span> <span class="pl-s1">l2</span>.<span class="pl-s1">next</span>
+        <span class="pl-s1">tail</span> <span class="pl-c1">=</span> <span class="pl-s1">tail</span>.<span class="pl-s1">next</span>
+
+    <span class="pl-s1">tail</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">l1</span> <span class="pl-k">if</span> <span class="pl-s1">l1</span> <span class="pl-k">else</span> <span class="pl-s1">l2</span>
+    <span class="pl-k">return</span> <span class="pl-s1">dummy</span>.<span class="pl-s1">next</span>
+
+<span class="pl-c"># 使用示例</span>
+<span class="pl-s1">l1</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">l1</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">l1</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">5</span>)
+
+<span class="pl-s1">l2</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">l2</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">4</span>)
+<span class="pl-s1">l2</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">6</span>)
+
+<span class="pl-s1">merged_head</span> <span class="pl-c1">=</span> <span class="pl-en">merge_two_sorted_lists</span>(<span class="pl-s1">l1</span>, <span class="pl-s1">l2</span>)
+<span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">merged_head</span>
+<span class="pl-k">while</span> <span class="pl-s1">current</span>:
+    <span class="pl-en">print</span>(<span class="pl-s1">current</span>.<span class="pl-s1">data</span>, <span class="pl-s1">end</span><span class="pl-c1">=</span><span class="pl-s">" -&gt; "</span>)
+    <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+<span class="pl-en">print</span>(<span class="pl-s">"None"</span>)  <span class="pl-c"># 输出: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; None</span></pre></div>
+<ul>
+<li>使用一个哨兵节点 dummy 来简化代码逻辑。</li>
+<li>遍历两个链表，将较小的节点添加到结果链表中。</li>
+<li>当一个链表结束时，将另一个链表剩余的部分直接连接到结果链表。</li>
+</ul>
+<h2>删除链表中的重复节点</h2>
+<p>在一个排序的链表中，删除重复的节点，使每个元素只出现一次。</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Node</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">class</span> <span class="pl-v">LinkedList</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">append</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">new_node</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-s1">data</span>)
+        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>:
+            <span class="pl-s1">self</span>.<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-s1">new_node</span>
+        <span class="pl-k">else</span>:
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+            <span class="pl-k">while</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>:
+                <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+            <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">new_node</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">remove_duplicates</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span> <span class="pl-c1">and</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">current</span>.<span class="pl-s1">data</span> <span class="pl-c1">==</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>.<span class="pl-s1">data</span>:
+                <span class="pl-s1">current</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>
+            <span class="pl-k">else</span>:
+                <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">display</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-s1">head</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>:
+            <span class="pl-en">print</span>(<span class="pl-s1">current</span>.<span class="pl-s1">data</span>, <span class="pl-s1">end</span><span class="pl-c1">=</span><span class="pl-s">" -&gt; "</span>)
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">next</span>
+        <span class="pl-en">print</span>(<span class="pl-s">"None"</span>)
+
+<span class="pl-c"># 使用示例</span>
+<span class="pl-s1">ll</span> <span class="pl-c1">=</span> <span class="pl-v">LinkedList</span>()
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">append</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 1 -&gt; 2 -&gt; 2 -&gt; 3 -&gt; 3 -&gt; None</span>
+<span class="pl-s1">ll</span>.<span class="pl-en">remove_duplicates</span>()
+<span class="pl-s1">ll</span>.<span class="pl-en">display</span>()  <span class="pl-c"># 输出: 1 -&gt; 2 -&gt; 3 -&gt; None</span></pre></div>
+<h2>查找链表中的中间节点</h2>
+<p>查找链表中间节点的方法之一是使用快慢指针。</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Node</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">data</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">data</span> <span class="pl-c1">=</span> <span class="pl-s1">data</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">def</span> <span class="pl-en">find_middle</span>(<span class="pl-s1">head</span>):
+    <span class="pl-s1">slow</span> <span class="pl-c1">=</span> <span class="pl-s1">head</span>
+    <span class="pl-s1">fast</span> <span class="pl-c1">=</span> <span class="pl-s1">head</span>
+    <span class="pl-k">while</span> <span class="pl-s1">fast</span> <span class="pl-c1">and</span> <span class="pl-s1">fast</span>.<span class="pl-s1">next</span>:
+        <span class="pl-s1">slow</span> <span class="pl-c1">=</span> <span class="pl-s1">slow</span>.<span class="pl-s1">next</span>
+        <span class="pl-s1">fast</span> <span class="pl-c1">=</span> <span class="pl-s1">fast</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>
+    <span class="pl-k">return</span> <span class="pl-s1">slow</span>.<span class="pl-s1">data</span>
+
+<span class="pl-c"># 使用示例</span>
+<span class="pl-s1">head</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">4</span>)
+<span class="pl-s1">head</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span>.<span class="pl-s1">next</span> <span class="pl-c1">=</span> <span class="pl-v">Node</span>(<span class="pl-c1">5</span>)
+<span class="pl-en">print</span>(<span class="pl-en">find_middle</span>(<span class="pl-s1">head</span>))  <span class="pl-c"># 输出: 3</span></pre></div>
+<ul>
+<li>slow 指针每次移动一步，fast 指针每次移动两步。</li>
+<li>当 fast 指针到达链表末尾时，slow 指针正好位于链表的中间位置。</li>
+</ul></div>
+<div style="font-size:small;margin-top:8px;float:right;"></div>
+
+<button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
+<div class="comments" id="comments"></div>
+
+</div>
+    <div id="footer"><div id="footer1">Copyright © <span id="copyrightYear"></span> <a href="https://stayt2.github.io">笔记</a></div>
+<div id="footer2">
+    <span id="runday"></span><span>Powered by <a href="https://meekdai.com/Gmeek.html" target="_blank">Gmeek</a></span>
+</div>
+
+<script>
+var now=new Date();
+document.getElementById("copyrightYear").innerHTML=now.getFullYear();
+
+if(""!=""){
+    var startSite=new Date("");
+    var diff=now.getTime()-startSite.getTime();
+    var diffDay=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("runday").innerHTML="网站运行"+diffDay+"天"+" • ";
+}
+</script></div>
+</body>
+<script>
+var IconList={'sun': 'M8 10.5a2.5 2.5 0 100-5 2.5 2.5 0 000 5zM8 12a4 4 0 100-8 4 4 0 000 8zM8 0a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V.75A.75.75 0 018 0zm0 13a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0v-1.5A.75.75 0 018 13zM2.343 2.343a.75.75 0 011.061 0l1.06 1.061a.75.75 0 01-1.06 1.06l-1.06-1.06a.75.75 0 010-1.06zm9.193 9.193a.75.75 0 011.06 0l1.061 1.06a.75.75 0 01-1.06 1.061l-1.061-1.06a.75.75 0 010-1.061zM16 8a.75.75 0 01-.75.75h-1.5a.75.75 0 010-1.5h1.5A.75.75 0 0116 8zM3 8a.75.75 0 01-.75.75H.75a.75.75 0 010-1.5h1.5A.75.75 0 013 8zm10.657-5.657a.75.75 0 010 1.061l-1.061 1.06a.75.75 0 11-1.06-1.06l1.06-1.06a.75.75 0 011.06 0zm-9.193 9.193a.75.75 0 010 1.06l-1.06 1.061a.75.75 0 11-1.061-1.06l1.06-1.061a.75.75 0 011.061 0z', 'moon': 'M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786zm1.616 1.945a7 7 0 01-7.678 7.678 5.5 5.5 0 107.678-7.678z', 'sync': 'M1.705 8.005a.75.75 0 0 1 .834.656 5.5 5.5 0 0 0 9.592 2.97l-1.204-1.204a.25.25 0 0 1 .177-.427h3.646a.25.25 0 0 1 .25.25v3.646a.25.25 0 0 1-.427.177l-1.38-1.38A7.002 7.002 0 0 1 1.05 8.84a.75.75 0 0 1 .656-.834ZM8 2.5a5.487 5.487 0 0 0-4.131 1.869l1.204 1.204A.25.25 0 0 1 4.896 6H1.25A.25.25 0 0 1 1 5.75V2.104a.25.25 0 0 1 .427-.177l1.38 1.38A7.002 7.002 0 0 1 14.95 7.16a.75.75 0 0 1-1.49.178A5.5 5.5 0 0 0 8 2.5Z', 'home': 'M6.906.664a1.749 1.749 0 0 1 2.187 0l5.25 4.2c.415.332.657.835.657 1.367v7.019A1.75 1.75 0 0 1 13.25 15h-3.5a.75.75 0 0 1-.75-.75V9H7v5.25a.75.75 0 0 1-.75.75h-3.5A1.75 1.75 0 0 1 1 13.25V6.23c0-.531.242-1.034.657-1.366l5.25-4.2Zm1.25 1.171a.25.25 0 0 0-.312 0l-5.25 4.2a.25.25 0 0 0-.094.196v7.019c0 .138.112.25.25.25H5.5V8.25a.75.75 0 0 1 .75-.75h3.5a.75.75 0 0 1 .75.75v5.25h2.75a.25.25 0 0 0 .25-.25V6.23a.25.25 0 0 0-.094-.195Z', 'github': 'M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z', 'copy': 'M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 0 1 0 1.5h-1.5a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-1.5a.75.75 0 0 1 1.5 0v1.5A1.75 1.75 0 0 1 9.25 16h-7.5A1.75 1.75 0 0 1 0 14.25Z M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0 1 14.25 11h-7.5A1.75 1.75 0 0 1 5 9.25Zm1.75-.25a.25.25 0 0 0-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 0 0 .25-.25v-7.5a.25.25 0 0 0-.25-.25Z', 'check': 'M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.751.751 0 0 1 .018-1.042.751.751 0 0 1 1.042-.018L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0Z'};
+var utterancesLoad=0;
+
+let themeSettings={
+    "dark": ["dark","moon","#00f0ff","dark-blue"],
+    "light": ["light","sun","#ff5000","github-light"],
+    "auto": ["auto","sync","","preferred-color-scheme"]
+};
+function changeTheme(mode, icon, color, utheme){
+    document.documentElement.setAttribute("data-color-mode",mode);
+    document.getElementById("themeSwitch").setAttribute("d",value=IconList[icon]);
+    document.getElementById("themeSwitch").parentNode.style.color=color;
+    if(utterancesLoad==1){utterancesTheme(utheme);}
+}
+function modeSwitch(){
+    let currentMode=document.documentElement.getAttribute('data-color-mode');
+    let newMode = currentMode === "light" ? "dark" : currentMode === "dark" ? "auto" : "light";
+    localStorage.setItem("meek_theme", newMode);
+    if(themeSettings[newMode]){
+        changeTheme(...themeSettings[newMode]);
+    }
+}
+function utterancesTheme(theme){
+    const message={type:'set-theme',theme: theme};
+    const iframe=document.getElementsByClassName('utterances-frame')[0];
+    iframe.contentWindow.postMessage(message,'https://utteranc.es');
+}
+if(themeSettings[theme]){changeTheme(...themeSettings[theme]);}
+console.log("\n %c Gmeek last https://github.com/Meekdai/Gmeek \n","padding:5px 0;background:#02d81d;color:#fff");
+</script>
+
+<script>
+document.getElementById("pathHome").setAttribute("d",IconList["home"]);
+document.getElementById("pathIssue").setAttribute("d",IconList["github"]);
+
+
+
+function openComments(){
+    cm=document.getElementById("comments");
+    cmButton=document.getElementById("cmButton");
+    cmButton.innerHTML="loading";
+    span=document.createElement("span");
+    span.setAttribute("class","AnimatedEllipsis");
+    cmButton.appendChild(span);
+
+    script=document.createElement("script");
+    script.setAttribute("src","https://utteranc.es/client.js");
+    script.setAttribute("repo","stayt2/stayt2.github.io");
+    script.setAttribute("issue-term","title");
+    
+    if(localStorage.getItem("meek_theme")=="dark"){script.setAttribute("theme","dark-blue");}
+    else if(localStorage.getItem("meek_theme")=="light") {script.setAttribute("theme","github-light");}
+    else{script.setAttribute("theme","preferred-color-scheme");}
+    
+    script.setAttribute("crossorigin","anonymous");
+    script.setAttribute("async","");
+    cm.appendChild(script);
+
+    int=self.setInterval("iFrameLoading()",200);
+}
+
+function iFrameLoading(){
+    var utterances=document.getElementsByClassName('utterances');
+    if(utterances.length==1){
+        if(utterances[0].style.height!=""){
+            utterancesLoad=1;
+            int=window.clearInterval(int);
+            document.getElementById("cmButton").style.display="none";
+            console.log("utterances Load OK");
+        }
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const createClipboardHTML = (codeContent, additionalClasses = '') => `
+        <pre class="notranslate"><code class="notranslate">${codeContent}</code></pre>
+        <div class="clipboard-container position-absolute right-0 top-0 ${additionalClasses}">
+            <clipboard-copy class="ClipboardButton btn m-2 p-0" role="button" style="display: inherit;">
+                <svg height="16" width="16" class="octicon octicon-copy m-2"><path d="${IconList["copy"]}"></path></svg>
+                <svg height="16" width="16" class="octicon octicon-check color-fg-success m-2 d-none"><path d="${IconList["check"]}"></path></svg>
+            </clipboard-copy>
+            <div class="copy-feedback">Copied!</div>
+        </div>
+    `;
+
+    const handleCodeElements = (selector = '') => {
+        document.querySelectorAll(selector).forEach(codeElement => {
+            const codeContent = codeElement.innerHTML;
+            const newStructure = document.createElement('div');
+            newStructure.className = 'snippet-clipboard-content position-relative overflow-auto';
+            newStructure.innerHTML = createClipboardHTML(codeContent);
+
+            const parentElement = codeElement.parentElement;
+            if (selector.includes('highlight')) {
+                parentElement.insertBefore(newStructure, codeElement.nextSibling);
+                parentElement.removeChild(codeElement);
+            } else {
+                parentElement.parentElement.replaceChild(newStructure, parentElement);
+            }
+        });
+    };
+
+    handleCodeElements('pre.notranslate > code.notranslate');
+    handleCodeElements('div.highlight > pre.notranslate');
+
+    let currentFeedback = null;
+    document.querySelectorAll('clipboard-copy').forEach(copyButton => {
+        copyButton.addEventListener('click', () => {
+            const codeContent = copyButton.closest('.snippet-clipboard-content').innerText;
+            const tempTextArea = document.createElement('textarea');
+            tempTextArea.value = codeContent;
+            document.body.appendChild(tempTextArea);
+            tempTextArea.select();
+            document.execCommand('copy');
+            document.body.removeChild(tempTextArea);
+
+            const copyIcon = copyButton.querySelector('.octicon-copy');
+            const checkIcon = copyButton.querySelector('.octicon-check');
+            const copyFeedback = copyButton.nextElementSibling;
+
+            if (currentFeedback && currentFeedback !== copyFeedback) {currentFeedback.style.display = 'none';}
+            currentFeedback = copyFeedback;
+
+            copyIcon.classList.add('d-none');
+            checkIcon.classList.remove('d-none');
+            copyFeedback.style.display = 'block';
+            copyButton.style.borderColor = 'var(--color-success-fg)';
+
+            setTimeout(() => {
+                copyIcon.classList.remove('d-none');
+                checkIcon.classList.add('d-none');
+                copyFeedback.style.display = 'none';
+                copyButton.style.borderColor = '';
+            }, 2000);
+        });
+    });
+});
+
+</script>
+<script src='https://blog.meekdai.com/Gmeek/plugins/GmeekTOC.js'>
+
+</html>

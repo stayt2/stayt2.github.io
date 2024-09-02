@@ -10,27 +10,21 @@
         let theme = localStorage.getItem("meek_theme") || "light";
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
-<meta name="description" content="- 南开大学, 统计与数据科学学院，数据科学与大数据技术
-- KAUST, CEMSE, Visiting Student
-- HKUST, CSE, Research Assistant
-- 南开大学，网络空间安全，计算机技术
-- 中国移动，移动研究院，实习
-- 快手科技，内容与风险技术部，实习
+<meta name="description" content="# 算法分析
+Python 一些常见的算法库：
+1. collections - 这个模块提供了许多扩展的容器类型：
 
-兴趣：机器学习理论，机器学习安全，大模型安全。">
-<meta property="og:title" content="关于">
-<meta property="og:description" content="- 南开大学, 统计与数据科学学院，数据科学与大数据技术
-- KAUST, CEMSE, Visiting Student
-- HKUST, CSE, Research Assistant
-- 南开大学，网络空间安全，计算机技术
-- 中国移动，移动研究院，实习
-- 快手科技，内容与风险技术部，实习
+    - deque: 提供了一个双端队列，支持从前端或后端以近乎 O(1) 的复杂度添加或删除元素。">
+<meta property="og:title" content="算法与数据结构">
+<meta property="og:description" content="# 算法分析
+Python 一些常见的算法库：
+1. collections - 这个模块提供了许多扩展的容器类型：
 
-兴趣：机器学习理论，机器学习安全，大模型安全。">
+    - deque: 提供了一个双端队列，支持从前端或后端以近乎 O(1) 的复杂度添加或删除元素。">
 <meta property="og:type" content="article">
-<meta property="og:url" content="https://stayt2.github.io/about.html">
+<meta property="og:url" content="https://stayt2.github.io/post/suan-fa-yu-shu-ju-jie-gou.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
-<title>关于</title>
+<title>算法与数据结构</title>
 
 
 
@@ -63,7 +57,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 
 <body>
     <div id="header">
-<h1 class="postTitle">关于</h1>
+<h1 class="postTitle">算法与数据结构</h1>
 <div class="title-right">
     <a href="https://stayt2.github.io" id="buttonHome" class="btn btn-invisible circle" title="首页">
         <svg class="octicon" width="16" height="16">
@@ -71,7 +65,7 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
         </svg>
     </a>
     
-    <a href="https://github.com/stayt2/stayt2.github.io/issues/1" target="_blank" class="btn btn-invisible circle" title="Issue">
+    <a href="https://github.com/stayt2/stayt2.github.io/issues/3" target="_blank" class="btn btn-invisible circle" title="Issue">
         <svg class="octicon" width="16" height="16">
             <path id="pathIssue" fill-rule="evenodd"></path>
         </svg>
@@ -87,15 +81,89 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
 </div>
     <div id="content">
-<div class="markdown-body" id="postBody"><ul>
-<li>南开大学, 统计与数据科学学院，数据科学与大数据技术</li>
-<li>KAUST, CEMSE, Visiting Student</li>
-<li>HKUST, CSE, Research Assistant</li>
-<li>南开大学，网络空间安全，计算机技术</li>
-<li>中国移动，移动研究院，实习</li>
-<li>快手科技，内容与风险技术部，实习</li>
+<div class="markdown-body" id="postBody"><h1>算法分析</h1>
+<p>Python 一些常见的算法库：</p>
+<ol>
+<li>
+<p>collections - 这个模块提供了许多扩展的容器类型：</p>
+<ul>
+<li>deque: 提供了一个双端队列，支持从前端或后端以近乎 O(1) 的复杂度添加或删除元素。</li>
+<li>Counter: 用于计数可哈希对象。</li>
+<li>OrderedDict: 保持键的插入顺序的字典。</li>
+<li>defaultdict: 在查询不存在的键时提供一个默认值。</li>
 </ul>
-<p>兴趣：机器学习理论，机器学习安全，大模型安全</p></div>
+</li>
+<li>
+<p>heapq - 这个模块提供了对堆队列算法的支持，特别是实现了一个优先队列算法：</p>
+<ul>
+<li>提供了堆的创建、插入元素、删除元素等功能。</li>
+</ul>
+</li>
+<li>
+<p>itertools - 提供了许多迭代器，能够帮助创建高效的循环：</p>
+<ul>
+<li>combinations, permutations: 生成数据的组合或排列。</li>
+<li>cycle, repeat: 用于创建重复的迭代器。</li>
+<li>chain: 用于合并多个迭代器。</li>
+</ul>
+</li>
+</ol>
+<h2>递归</h2>
+<h2>贪心</h2>
+<h2>动态规划</h2>
+<h3>树形DP：01背包问题</h3>
+<h3>线性DP：最长公共子序列、最长公共子串</h3>
+<h3>区间DP：矩阵最大值（和以及积）</h3>
+<h3>数位DP：数字游戏</h3>
+<h3>状态压缩DP：旅行商</h3>
+<h2>排序</h2>
+<h3>插入排序、选择排序、冒泡排序</h3>
+<h3>分治排序：快速排序、归并排序</h3>
+<h3>分配排序：桶排序、基数排序</h3>
+<h3>树状排序：堆排序（必学）</h3>
+<h2>搜索和回溯</h2>
+<h3>启发式搜索算法：A*寻路算法</h3>
+<h3>地图着色算法、N 皇后问题、最优加工顺序</h3>
+<h3>旅行商问题</h3>
+<h2>树算法</h2>
+<h2>图算法</h2>
+<h3>图的表示：邻接矩阵和邻接表</h3>
+<h3>遍历算法：深度搜索和广度搜索(必学)</h3>
+<h3>最短路径算法：Floyd，Dijkstra（必学）</h3>
+<h3>最小生成树算法：Prim，Kruskal（必学）</h3>
+<h3>实际常用算法：关键路径、拓扑排序（原理与应用）</h3>
+<h3>二分图匹配：配对、匈牙利算法（原理与应用）</h3>
+<h1>数据结构</h1>
+<h2>列表</h2>
+<ul>
+<li>数组（array，numpy），列表是 list，python 自带</li>
+</ul>
+<h2>链表</h2>
+<p>#20</p>
+<h2>并查集/哈希表</h2>
+<h3>碰撞解决方法：开放定址法、链地址法、再次哈希法、建立公共溢出区</h3>
+<h3>布隆过滤器（原理与应用）</h3>
+<p>#23</p>
+<h2>栈/队列</h2>
+<p>#21</p>
+<h2>优先队列和堆</h2>
+<p>#22</p>
+<h2>树</h2>
+<p>#24</p>
+<h3>二叉树：各种遍历（递归与非递归）</h3>
+<h3>哈夫曼树与编码（原理与应用）</h3>
+<h3>AVL树（必学）</h3>
+<h3>B 树与 B+ 树（原理与应用）</h3>
+<h3>前缀树（原理与应用）</h3>
+<h3>红黑树（原理与应用）</h3>
+<h3>线段树（原理与应用）</h3>
+<h2>字符匹配算法</h2>
+<h3>正则表达式</h3>
+<h3>模式匹配：KMP、Boyer-Moore</h3>
+<h2>流算法</h2>
+<h3>最大流：最短增广路、Dinic 算法</h3>
+<h3>最大流最小割：最大收益问题、方格取数问题</h3>
+<h3>最小费用最大流：最小费用路、消遣</h3></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
