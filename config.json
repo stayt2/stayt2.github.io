@@ -4,5 +4,5 @@
     "avatarUrl":"https://github.githubassets.com/favicons/favicon.svg",
     "GMEEK_VERSION":"last",
     "singlePage":["about"],
-    "script":"<script src='https://github.com/stayt2/stayt2.github.io/blob/main/plugins/TOC.js'></script>"
+    "script":"<script src='https://github.com/stayt2/stayt2.github.io/blob/main/static/toc.js'></script>"
 }
