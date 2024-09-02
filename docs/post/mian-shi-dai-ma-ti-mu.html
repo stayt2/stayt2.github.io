@@ -74,7 +74,76 @@ Hot100一定要刷完
 
 #  Robosense
 
-# 九坤。">
+# 九坤
+
+# 字节
+> 给定一个数n，如23121;给定一组数字A如{2,4,9}，求由A中元素组成的小于n的最大数，如小于23121的最大数为 22999
+
+```python
+def find_max_less_than_n(n, A):
+    # 将n转化为字符数组，方便处理每一位数字
+    digits = list(str(n))
+    # 对A进行排序，确保可以从大到小尝试
+    A = sorted(A, reverse=True)
+    
+    def backtrack(index):
+        if index < 0:
+            # 如果回溯超出最高位，则返回A中最大元素组成的小于n的最大数
+            return str(A[0]) * int(len(digits)-1)
+        
+        original = int(digits[index])  # 保存原始数字
+        for a in A:
+            # 从大到小尝试替换当前位的数字
+            if a < original:
+                digits[index] = str(a)
+                # 将后面的所有位替换成A中最大的数字
+                for i in range(index + 1, len(digits)):
+                    digits[i] = str(A[0])
+                return ''.join(digits)
+        # 如果所有的数字都不能替换当前位
+        # 那么回溯到上一位
+        digits[index] = str(original)
+        return backtrack(index - 1)
+    
+    # 从最高位开始回溯
+    return backtrack(len(digits) - 1)
+
+# 给定的数字
+n = 23121
+# 给定的数字集合A
+A = [2, 4, 9]
+# 打印结果
+print(find_max_less_than_n(n, A))  # 输出应该是22999
+
+# 对于第二个例子
+n = 22121
+print(find_max_less_than_n(n, A))  # 输出应该是9999
+```
+
+# 滑动窗口问题
+
+https://leetcode.cn/problems/minimum-size-subarray-sum/description/
+
+```python
+def min_sub_len(s, nums):
+    n = len(nums)
+    min_len = float('inf')  # 初始化最小长度为无穷大
+    left = 0  # 初始化左指针
+    cur = 0  # 初始化当前和为0
+    for right in range(n):  # 右指针在数组上滑动
+        cur += nums[right]  # 将当前右指针指向的值加到当前和中
+        while cur >= s:  # 当当前和大于等于s时，尝试缩小窗口
+            min_len = min(min_len, right - left + 1)  # 更新最小长度
+            cur -= nums[left]  # 从当前和中减去左指针指向的值
+            left += 1  # 移动左指针
+    return min_len if min_len != float('inf') else 0  # 如果找到了子数组，返回最小长度；否则返回0
+```
+这个题有个坑的地方就是 while 容易写成 if 
+
+这种方法能找到最小长度的数组，是因为它遵循了两个关键的策略：
+
+- 策略一：递增窗口以满足最小和要求
+当窗口中的元素总和小于 s 时，我们通过向右移动 right 指针来增加窗口的大小。">
 <meta property="og:title" content="面试代码题目">
 <meta property="og:description" content="# 第 k 大的数组
 
@@ -140,7 +209,76 @@ Hot100一定要刷完
 
 #  Robosense
 
-# 九坤。">
+# 九坤
+
+# 字节
+> 给定一个数n，如23121;给定一组数字A如{2,4,9}，求由A中元素组成的小于n的最大数，如小于23121的最大数为 22999
+
+```python
+def find_max_less_than_n(n, A):
+    # 将n转化为字符数组，方便处理每一位数字
+    digits = list(str(n))
+    # 对A进行排序，确保可以从大到小尝试
+    A = sorted(A, reverse=True)
+    
+    def backtrack(index):
+        if index < 0:
+            # 如果回溯超出最高位，则返回A中最大元素组成的小于n的最大数
+            return str(A[0]) * int(len(digits)-1)
+        
+        original = int(digits[index])  # 保存原始数字
+        for a in A:
+            # 从大到小尝试替换当前位的数字
+            if a < original:
+                digits[index] = str(a)
+                # 将后面的所有位替换成A中最大的数字
+                for i in range(index + 1, len(digits)):
+                    digits[i] = str(A[0])
+                return ''.join(digits)
+        # 如果所有的数字都不能替换当前位
+        # 那么回溯到上一位
+        digits[index] = str(original)
+        return backtrack(index - 1)
+    
+    # 从最高位开始回溯
+    return backtrack(len(digits) - 1)
+
+# 给定的数字
+n = 23121
+# 给定的数字集合A
+A = [2, 4, 9]
+# 打印结果
+print(find_max_less_than_n(n, A))  # 输出应该是22999
+
+# 对于第二个例子
+n = 22121
+print(find_max_less_than_n(n, A))  # 输出应该是9999
+```
+
+# 滑动窗口问题
+
+https://leetcode.cn/problems/minimum-size-subarray-sum/description/
+
+```python
+def min_sub_len(s, nums):
+    n = len(nums)
+    min_len = float('inf')  # 初始化最小长度为无穷大
+    left = 0  # 初始化左指针
+    cur = 0  # 初始化当前和为0
+    for right in range(n):  # 右指针在数组上滑动
+        cur += nums[right]  # 将当前右指针指向的值加到当前和中
+        while cur >= s:  # 当当前和大于等于s时，尝试缩小窗口
+            min_len = min(min_len, right - left + 1)  # 更新最小长度
+            cur -= nums[left]  # 从当前和中减去左指针指向的值
+            left += 1  # 移动左指针
+    return min_len if min_len != float('inf') else 0  # 如果找到了子数组，返回最小长度；否则返回0
+```
+这个题有个坑的地方就是 while 容易写成 if 
+
+这种方法能找到最小长度的数组，是因为它遵循了两个关键的策略：
+
+- 策略一：递增窗口以满足最小和要求
+当窗口中的元素总和小于 s 时，我们通过向右移动 right 指针来增加窗口的大小。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://stayt2.github.io/post/mian-shi-dai-ma-ti-mu.html">
 <meta property="og:image" content="https://github.githubassets.com/favicons/favicon.svg">
@@ -268,7 +406,95 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <h1>讯飞</h1>
 <h1>文远</h1>
 <h1>Robosense</h1>
-<h1>九坤</h1></div>
+<h1>九坤</h1>
+<h1>字节</h1>
+<blockquote>
+<p>给定一个数n，如23121;给定一组数字A如{2,4,9}，求由A中元素组成的小于n的最大数，如小于23121的最大数为 22999</p>
+</blockquote>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">def</span> <span class="pl-en">find_max_less_than_n</span>(<span class="pl-s1">n</span>, <span class="pl-v">A</span>):
+    <span class="pl-c"># 将n转化为字符数组，方便处理每一位数字</span>
+    <span class="pl-s1">digits</span> <span class="pl-c1">=</span> <span class="pl-en">list</span>(<span class="pl-en">str</span>(<span class="pl-s1">n</span>))
+    <span class="pl-c"># 对A进行排序，确保可以从大到小尝试</span>
+    <span class="pl-v">A</span> <span class="pl-c1">=</span> <span class="pl-en">sorted</span>(<span class="pl-v">A</span>, <span class="pl-s1">reverse</span><span class="pl-c1">=</span><span class="pl-c1">True</span>)
+    
+    <span class="pl-k">def</span> <span class="pl-en">backtrack</span>(<span class="pl-s1">index</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">index</span> <span class="pl-c1">&lt;</span> <span class="pl-c1">0</span>:
+            <span class="pl-c"># 如果回溯超出最高位，则返回A中最大元素组成的小于n的最大数</span>
+            <span class="pl-k">return</span> <span class="pl-en">str</span>(<span class="pl-v">A</span>[<span class="pl-c1">0</span>]) <span class="pl-c1">*</span> <span class="pl-en">int</span>(<span class="pl-en">len</span>(<span class="pl-s1">digits</span>)<span class="pl-c1">-</span><span class="pl-c1">1</span>)
+        
+        <span class="pl-s1">original</span> <span class="pl-c1">=</span> <span class="pl-en">int</span>(<span class="pl-s1">digits</span>[<span class="pl-s1">index</span>])  <span class="pl-c"># 保存原始数字</span>
+        <span class="pl-k">for</span> <span class="pl-s1">a</span> <span class="pl-c1">in</span> <span class="pl-v">A</span>:
+            <span class="pl-c"># 从大到小尝试替换当前位的数字</span>
+            <span class="pl-k">if</span> <span class="pl-s1">a</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">original</span>:
+                <span class="pl-s1">digits</span>[<span class="pl-s1">index</span>] <span class="pl-c1">=</span> <span class="pl-en">str</span>(<span class="pl-s1">a</span>)
+                <span class="pl-c"># 将后面的所有位替换成A中最大的数字</span>
+                <span class="pl-k">for</span> <span class="pl-s1">i</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">index</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>, <span class="pl-en">len</span>(<span class="pl-s1">digits</span>)):
+                    <span class="pl-s1">digits</span>[<span class="pl-s1">i</span>] <span class="pl-c1">=</span> <span class="pl-en">str</span>(<span class="pl-v">A</span>[<span class="pl-c1">0</span>])
+                <span class="pl-k">return</span> <span class="pl-s">''</span>.<span class="pl-en">join</span>(<span class="pl-s1">digits</span>)
+        <span class="pl-c"># 如果所有的数字都不能替换当前位</span>
+        <span class="pl-c"># 那么回溯到上一位</span>
+        <span class="pl-s1">digits</span>[<span class="pl-s1">index</span>] <span class="pl-c1">=</span> <span class="pl-en">str</span>(<span class="pl-s1">original</span>)
+        <span class="pl-k">return</span> <span class="pl-en">backtrack</span>(<span class="pl-s1">index</span> <span class="pl-c1">-</span> <span class="pl-c1">1</span>)
+    
+    <span class="pl-c"># 从最高位开始回溯</span>
+    <span class="pl-k">return</span> <span class="pl-en">backtrack</span>(<span class="pl-en">len</span>(<span class="pl-s1">digits</span>) <span class="pl-c1">-</span> <span class="pl-c1">1</span>)
+
+<span class="pl-c"># 给定的数字</span>
+<span class="pl-s1">n</span> <span class="pl-c1">=</span> <span class="pl-c1">23121</span>
+<span class="pl-c"># 给定的数字集合A</span>
+<span class="pl-v">A</span> <span class="pl-c1">=</span> [<span class="pl-c1">2</span>, <span class="pl-c1">4</span>, <span class="pl-c1">9</span>]
+<span class="pl-c"># 打印结果</span>
+<span class="pl-en">print</span>(<span class="pl-en">find_max_less_than_n</span>(<span class="pl-s1">n</span>, <span class="pl-v">A</span>))  <span class="pl-c"># 输出应该是22999</span>
+
+<span class="pl-c"># 对于第二个例子</span>
+<span class="pl-s1">n</span> <span class="pl-c1">=</span> <span class="pl-c1">22121</span>
+<span class="pl-en">print</span>(<span class="pl-en">find_max_less_than_n</span>(<span class="pl-s1">n</span>, <span class="pl-v">A</span>))  <span class="pl-c"># 输出应该是9999</span></pre></div>
+<h1>滑动窗口问题</h1>
+<p><a href="https://leetcode.cn/problems/minimum-size-subarray-sum/description/" rel="nofollow">https://leetcode.cn/problems/minimum-size-subarray-sum/description/</a></p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">def</span> <span class="pl-en">min_sub_len</span>(<span class="pl-s1">s</span>, <span class="pl-s1">nums</span>):
+    <span class="pl-s1">n</span> <span class="pl-c1">=</span> <span class="pl-en">len</span>(<span class="pl-s1">nums</span>)
+    <span class="pl-s1">min_len</span> <span class="pl-c1">=</span> <span class="pl-en">float</span>(<span class="pl-s">"inf"</span>)  <span class="pl-c"># 初始化最小长度为无穷大</span>
+    <span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 初始化左指针</span>
+    <span class="pl-s1">cur</span> <span class="pl-c1">=</span> <span class="pl-c1">0</span>  <span class="pl-c"># 初始化当前和为0</span>
+    <span class="pl-k">for</span> <span class="pl-s1">right</span> <span class="pl-c1">in</span> <span class="pl-en">range</span>(<span class="pl-s1">n</span>):  <span class="pl-c"># 右指针在数组上滑动</span>
+        <span class="pl-s1">cur</span> <span class="pl-c1">+=</span> <span class="pl-s1">nums</span>[<span class="pl-s1">right</span>]  <span class="pl-c"># 将当前右指针指向的值加到当前和中</span>
+        <span class="pl-k">while</span> <span class="pl-s1">cur</span> <span class="pl-c1">&gt;=</span> <span class="pl-s1">s</span>:  <span class="pl-c"># 当当前和大于等于s时，尝试缩小窗口</span>
+            <span class="pl-s1">min_len</span> <span class="pl-c1">=</span> <span class="pl-en">min</span>(<span class="pl-s1">min_len</span>, <span class="pl-s1">right</span> <span class="pl-c1">-</span> <span class="pl-s1">left</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>)  <span class="pl-c"># 更新最小长度</span>
+            <span class="pl-s1">cur</span> <span class="pl-c1">-=</span> <span class="pl-s1">nums</span>[<span class="pl-s1">left</span>]  <span class="pl-c"># 从当前和中减去左指针指向的值</span>
+            <span class="pl-s1">left</span> <span class="pl-c1">+=</span> <span class="pl-c1">1</span>  <span class="pl-c"># 移动左指针</span>
+    <span class="pl-k">return</span> <span class="pl-s1">min_len</span> <span class="pl-k">if</span> <span class="pl-s1">min_len</span> <span class="pl-c1">!=</span> <span class="pl-en">float</span>(<span class="pl-s">"inf"</span>) <span class="pl-k">else</span> <span class="pl-c1">0</span>  <span class="pl-c"># 如果找到了子数组，返回最小长度；否则返回0</span></pre></div>
+<p>这个题有个坑的地方就是 while 容易写成 if</p>
+<p>这种方法能找到最小长度的数组，是因为它遵循了两个关键的策略：</p>
+<ul>
+<li>
+<p>策略一：递增窗口以满足最小和要求<br>
+当窗口中的元素总和小于 s 时，我们通过向右移动 right 指针来增加窗口的大小。这样可以确保我们不会错过任何可能满足条件的子数组。</p>
+</li>
+<li>
+<p>策略二：递减窗口以找到最小长度<br>
+一旦窗口的元素总和达到或超过 s，我们就开始通过向右移动 left 指针来减小窗口的大小，同时更新最小长度。这个步骤是关键，因为：</p>
+<ul>
+<li>由于数组中的所有数字都是正数，移动 left 指针（即减小窗口）一定会减少窗口的总和。<br>
+如果在移动 left 之后，窗口的总和仍然大于或等于 s，那么我们可能找到了一个更小的满足条件的子数组。<br>
+如果在移动 left 之后，窗口的总和小于 s，我们停止减小窗口，并再次开始增加窗口大小，直到窗口的总和再次达到或超过 s。</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>如果你已经实现 O(n) 时间复杂度的解法，请尝试设计一个 O(n log(n)) 时间复杂度的解法。</p>
+</blockquote>
+<ul class="contains-task-list">
+<li class="task-list-item"><input type="checkbox" id="" disabled="" class="task-list-item-checkbox"> TODO</li>
+</ul>
+<h1>比较版本号</h1>
+<p><a href="https://leetcode.cn/problems/compare-version-numbers/description/" rel="nofollow">https://leetcode.cn/problems/compare-version-numbers/description/</a></p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">Solution</span>:
+    <span class="pl-k">def</span> <span class="pl-en">compareVersion</span>(<span class="pl-s1">self</span>, <span class="pl-s1">version1</span>: <span class="pl-s1">str</span>, <span class="pl-s1">version2</span>: <span class="pl-s1">str</span>) <span class="pl-c1">-&gt;</span> <span class="pl-s1">int</span>:
+        <span class="pl-s1">v1</span>, <span class="pl-s1">v2</span> <span class="pl-c1">=</span> <span class="pl-en">list</span>(<span class="pl-en">map</span>(<span class="pl-s1">int</span>, <span class="pl-s1">version1</span>.<span class="pl-en">split</span>(<span class="pl-s">'.'</span>))), <span class="pl-en">list</span>(<span class="pl-en">map</span>(<span class="pl-s1">int</span>, <span class="pl-s1">version2</span>.<span class="pl-en">split</span>(<span class="pl-s">'.'</span>)))
+        <span class="pl-s1">l1</span>, <span class="pl-s1">l2</span> <span class="pl-c1">=</span> <span class="pl-en">len</span>(<span class="pl-s1">v1</span>), <span class="pl-en">len</span>(<span class="pl-s1">v2</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">l1</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">l2</span>: <span class="pl-s1">v1</span> <span class="pl-c1">+=</span> [<span class="pl-c1">0</span>] <span class="pl-c1">*</span> (<span class="pl-s1">l2</span> <span class="pl-c1">-</span> <span class="pl-s1">l1</span>)
+        <span class="pl-k">else</span>:       <span class="pl-s1">v2</span> <span class="pl-c1">+=</span> [<span class="pl-c1">0</span>] <span class="pl-c1">*</span> (<span class="pl-s1">l1</span> <span class="pl-c1">-</span> <span class="pl-s1">l2</span>)
+        <span class="pl-k">return</span> <span class="pl-c1">1</span> <span class="pl-k">if</span> <span class="pl-s1">v1</span> <span class="pl-c1">&gt;</span> <span class="pl-s1">v2</span> <span class="pl-k">else</span> <span class="pl-c1">-</span><span class="pl-c1">1</span> <span class="pl-k">if</span> <span class="pl-s1">v1</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">v2</span> <span class="pl-k">else</span> <span class="pl-c1">0</span></pre></div></div>
 <div style="font-size:small;margin-top:8px;float:right;"></div>
 
 <button class="btn btn-block" type="button" onclick="openComments()" id="cmButton">评论</button>
