@@ -11,38 +11,18 @@
         document.documentElement.setAttribute("data-color-mode", theme);
     </script>
 <meta name="description" content="# 二叉树
-
-## 遍历
 ```python
 class TreeNode:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
-
+```
+## 遍历
+```python
 class BinaryTree:
     def __init__(self):
         self.root = None
-
-    def insert(self, value):
-        '''插入新值到二叉树中'''
-        if self.root is None:
-            self.root = TreeNode(value)
-        else:
-            self._insert_recursive(self.root, value)
-    
-    def _insert_recursive(self, node, value):
-        '''递归插入值'''
-        if value < node.value:
-            if node.left is None:
-                node.left = TreeNode(value)
-            else:
-                self._insert_recursive(node.left, value)
-        else:
-            if node.right is None:
-                node.right = TreeNode(value)
-            else:
-                self._insert_recursive(node.right, value)
 
     def inorder_traversal(self):
         '''中序遍历二叉树'''
@@ -98,6 +78,28 @@ print('Postorder Traversal:', bt.postorder_traversal())
 ## 搜索
 
 ## 插入和删除
+```python
+    def insert(self, value):
+        '''插入新值到二叉树中'''
+        if self.root is None:
+            self.root = TreeNode(value)
+        else:
+            self._insert_recursive(self.root, value)
+    
+    def _insert_recursive(self, node, value):
+        '''递归插入值'''
+        if value < node.value:
+            if node.left is None:
+                node.left = TreeNode(value)
+            else:
+                self._insert_recursive(node.left, value)
+        else:
+            if node.right is None:
+                node.right = TreeNode(value)
+            else:
+                self._insert_recursive(node.right, value)
+```
+
 
 ##  红黑树
 
@@ -114,38 +116,18 @@ print('Postorder Traversal:', bt.postorder_traversal())
 。">
 <meta property="og:title" content="树/图">
 <meta property="og:description" content="# 二叉树
-
-## 遍历
 ```python
 class TreeNode:
     def __init__(self, value):
         self.value = value
         self.left = None
         self.right = None
-
+```
+## 遍历
+```python
 class BinaryTree:
     def __init__(self):
         self.root = None
-
-    def insert(self, value):
-        '''插入新值到二叉树中'''
-        if self.root is None:
-            self.root = TreeNode(value)
-        else:
-            self._insert_recursive(self.root, value)
-    
-    def _insert_recursive(self, node, value):
-        '''递归插入值'''
-        if value < node.value:
-            if node.left is None:
-                node.left = TreeNode(value)
-            else:
-                self._insert_recursive(node.left, value)
-        else:
-            if node.right is None:
-                node.right = TreeNode(value)
-            else:
-                self._insert_recursive(node.right, value)
 
     def inorder_traversal(self):
         '''中序遍历二叉树'''
@@ -201,6 +183,28 @@ print('Postorder Traversal:', bt.postorder_traversal())
 ## 搜索
 
 ## 插入和删除
+```python
+    def insert(self, value):
+        '''插入新值到二叉树中'''
+        if self.root is None:
+            self.root = TreeNode(value)
+        else:
+            self._insert_recursive(self.root, value)
+    
+    def _insert_recursive(self, node, value):
+        '''递归插入值'''
+        if value < node.value:
+            if node.left is None:
+                node.left = TreeNode(value)
+            else:
+                self._insert_recursive(node.left, value)
+        else:
+            if node.right is None:
+                node.right = TreeNode(value)
+            else:
+                self._insert_recursive(node.right, value)
+```
+
 
 ##  红黑树
 
@@ -286,36 +290,15 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 </div>
     <div id="content">
 <div class="markdown-body" id="postBody"><h1>二叉树</h1>
-<h2>遍历</h2>
 <div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">TreeNode</span>:
     <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
         <span class="pl-s1">self</span>.<span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">value</span>
         <span class="pl-s1">self</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
-        <span class="pl-s1">self</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
-
-<span class="pl-k">class</span> <span class="pl-v">BinaryTree</span>:
+        <span class="pl-s1">self</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span></pre></div>
+<h2>遍历</h2>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">BinaryTree</span>:
     <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>):
         <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
-
-    <span class="pl-k">def</span> <span class="pl-en">insert</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
-        <span class="pl-s">"""插入新值到二叉树中"""</span>
-        <span class="pl-k">if</span> <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
-            <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
-        <span class="pl-k">else</span>:
-            <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
-    
-    <span class="pl-k">def</span> <span class="pl-en">_insert_recursive</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
-        <span class="pl-s">"""递归插入值"""</span>
-        <span class="pl-k">if</span> <span class="pl-s1">value</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
-            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
-                <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
-            <span class="pl-k">else</span>:
-                <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
-        <span class="pl-k">else</span>:
-            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
-                <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
-            <span class="pl-k">else</span>:
-                <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)
 
     <span class="pl-k">def</span> <span class="pl-en">inorder_traversal</span>(<span class="pl-s1">self</span>):
         <span class="pl-s">"""中序遍历二叉树"""</span>
@@ -369,6 +352,25 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-en">print</span>(<span class="pl-s">"Postorder Traversal:"</span>, <span class="pl-s1">bt</span>.<span class="pl-en">postorder_traversal</span>())</pre></div>
 <h2>搜索</h2>
 <h2>插入和删除</h2>
+<div class="highlight highlight-source-python"><pre class="notranslate">    <span class="pl-k">def</span> <span class="pl-en">insert</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
+        <span class="pl-s">"""插入新值到二叉树中"""</span>
+        <span class="pl-k">if</span> <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+            <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
+        <span class="pl-k">else</span>:
+            <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
+    
+    <span class="pl-k">def</span> <span class="pl-en">_insert_recursive</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
+        <span class="pl-s">"""递归插入值"""</span>
+        <span class="pl-k">if</span> <span class="pl-s1">value</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+                <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
+            <span class="pl-k">else</span>:
+                <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
+        <span class="pl-k">else</span>:
+            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+                <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
+            <span class="pl-k">else</span>:
+                <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)</pre></div>
 <h2>红黑树</h2>
 <h1>图</h1>
 <h2>遍历</h2>
