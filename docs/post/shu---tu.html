@@ -76,44 +76,61 @@ print('Preorder Traversal:', bt.preorder_traversal())
 print('Postorder Traversal:', bt.postorder_traversal())
 ```
 ## 搜索
-
-## 插入和删除
+### 深度优先搜索
+即三种遍历算法
+### 宽度优先搜索
+即层次遍历
 ```python
-    def insert(self, value):
-        '''插入新值到二叉树中'''
-        if self.root is None:
-            self.root = TreeNode(value)
-        else:
-            self._insert_recursive(self.root, value)
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
     
-    def _insert_recursive(self, node, value):
-        '''递归插入值'''
-        if value < node.value:
-            if node.left is None:
-                node.left = TreeNode(value)
-            else:
-                self._insert_recursive(node.left, value)
-        else:
-            if node.right is None:
-                node.right = TreeNode(value)
-            else:
-                self._insert_recursive(node.right, value)
+    def dfs_preorder(self):
+        return self._dfs_preorder(self.root, [])
+    
+    def _dfs_preorder(self, node, result):
+        if node:
+            result.append(node.value)  # 访问节点
+            self._dfs_preorder(node.left, result)  # 遍历左子树
+            self._dfs_preorder(node.right, result)  # 遍历右子树
+        return result
+
+    def bfs(self):
+        result = []
+        if not self.root:
+            return result
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            result.append(node.value)  # 访问节点
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        return result
+
+# 创建二叉树实例
+bt = BinaryTree()
+bt.root = TreeNode(1)
+bt.root.left = TreeNode(2)
+bt.root.right = TreeNode(3)
+bt.root.left.left = TreeNode(4)
+bt.root.left.right = TreeNode(5)
+
+# DFS 先序遍历输出
+print('DFS Preorder:', bt.dfs_preorder())
+# BFS 层次遍历输出
+print('BFS:', bt.bfs())
 ```
+### 计算树的高度和深度
 
-
-##  红黑树
-
-# 图
-
-## 遍历
-
-## 最短路径
-
-## 最小生成树
-
-## 网络流问题
-
-。">
+- 计算树的高度：树的高度是从根节点到最远叶子节点的最长路径上的节点数。">
 <meta property="og:title" content="树/图">
 <meta property="og:description" content="# 二叉树
 ```python
@@ -181,44 +198,61 @@ print('Preorder Traversal:', bt.preorder_traversal())
 print('Postorder Traversal:', bt.postorder_traversal())
 ```
 ## 搜索
-
-## 插入和删除
+### 深度优先搜索
+即三种遍历算法
+### 宽度优先搜索
+即层次遍历
 ```python
-    def insert(self, value):
-        '''插入新值到二叉树中'''
-        if self.root is None:
-            self.root = TreeNode(value)
-        else:
-            self._insert_recursive(self.root, value)
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.left = None
+        self.right = None
+
+class BinaryTree:
+    def __init__(self):
+        self.root = None
     
-    def _insert_recursive(self, node, value):
-        '''递归插入值'''
-        if value < node.value:
-            if node.left is None:
-                node.left = TreeNode(value)
-            else:
-                self._insert_recursive(node.left, value)
-        else:
-            if node.right is None:
-                node.right = TreeNode(value)
-            else:
-                self._insert_recursive(node.right, value)
+    def dfs_preorder(self):
+        return self._dfs_preorder(self.root, [])
+    
+    def _dfs_preorder(self, node, result):
+        if node:
+            result.append(node.value)  # 访问节点
+            self._dfs_preorder(node.left, result)  # 遍历左子树
+            self._dfs_preorder(node.right, result)  # 遍历右子树
+        return result
+
+    def bfs(self):
+        result = []
+        if not self.root:
+            return result
+        queue = [self.root]
+        while queue:
+            node = queue.pop(0)
+            result.append(node.value)  # 访问节点
+            if node.left:
+                queue.append(node.left)
+            if node.right:
+                queue.append(node.right)
+        return result
+
+# 创建二叉树实例
+bt = BinaryTree()
+bt.root = TreeNode(1)
+bt.root.left = TreeNode(2)
+bt.root.right = TreeNode(3)
+bt.root.left.left = TreeNode(4)
+bt.root.left.right = TreeNode(5)
+
+# DFS 先序遍历输出
+print('DFS Preorder:', bt.dfs_preorder())
+# BFS 层次遍历输出
+print('BFS:', bt.bfs())
 ```
+### 计算树的高度和深度
 
-
-##  红黑树
-
-# 图
-
-## 遍历
-
-## 最短路径
-
-## 最小生成树
-
-## 网络流问题
-
-。">
+- 计算树的高度：树的高度是从根节点到最远叶子节点的最长路径上的节点数。">
 <meta property="og:type" content="article">
 <meta property="og:url" content="https://stayt2.github.io/post/shu---tu.html">
 <meta property="og:image" content="https://stayt2.github.io/touxiang.jpg">
@@ -351,27 +385,228 @@ body{box-sizing: border-box;min-width: 200px;max-width: 900px;margin: 20px auto;
 <span class="pl-en">print</span>(<span class="pl-s">"Preorder Traversal:"</span>, <span class="pl-s1">bt</span>.<span class="pl-en">preorder_traversal</span>())
 <span class="pl-en">print</span>(<span class="pl-s">"Postorder Traversal:"</span>, <span class="pl-s1">bt</span>.<span class="pl-en">postorder_traversal</span>())</pre></div>
 <h2>搜索</h2>
-<h2>插入和删除</h2>
-<div class="highlight highlight-source-python"><pre class="notranslate">    <span class="pl-k">def</span> <span class="pl-en">insert</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
-        <span class="pl-s">"""插入新值到二叉树中"""</span>
+<h3>深度优先搜索</h3>
+<p>即三种遍历算法</p>
+<h3>宽度优先搜索</h3>
+<p>即层次遍历</p>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">TreeNode</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">value</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+
+<span class="pl-k">class</span> <span class="pl-v">BinaryTree</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-c1">None</span>
+    
+    <span class="pl-k">def</span> <span class="pl-en">dfs_preorder</span>(<span class="pl-s1">self</span>):
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_dfs_preorder</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, [])
+    
+    <span class="pl-k">def</span> <span class="pl-en">_dfs_preorder</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">result</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">node</span>:
+            <span class="pl-s1">result</span>.<span class="pl-en">append</span>(<span class="pl-s1">node</span>.<span class="pl-s1">value</span>)  <span class="pl-c"># 访问节点</span>
+            <span class="pl-s1">self</span>.<span class="pl-en">_dfs_preorder</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">result</span>)  <span class="pl-c"># 遍历左子树</span>
+            <span class="pl-s1">self</span>.<span class="pl-en">_dfs_preorder</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">result</span>)  <span class="pl-c"># 遍历右子树</span>
+        <span class="pl-k">return</span> <span class="pl-s1">result</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">bfs</span>(<span class="pl-s1">self</span>):
+        <span class="pl-s1">result</span> <span class="pl-c1">=</span> []
+        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">self</span>.<span class="pl-s1">root</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">result</span>
+        <span class="pl-s1">queue</span> <span class="pl-c1">=</span> [<span class="pl-s1">self</span>.<span class="pl-s1">root</span>]
+        <span class="pl-k">while</span> <span class="pl-s1">queue</span>:
+            <span class="pl-s1">node</span> <span class="pl-c1">=</span> <span class="pl-s1">queue</span>.<span class="pl-en">pop</span>(<span class="pl-c1">0</span>)
+            <span class="pl-s1">result</span>.<span class="pl-en">append</span>(<span class="pl-s1">node</span>.<span class="pl-s1">value</span>)  <span class="pl-c"># 访问节点</span>
+            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">left</span>:
+                <span class="pl-s1">queue</span>.<span class="pl-en">append</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>)
+            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">right</span>:
+                <span class="pl-s1">queue</span>.<span class="pl-en">append</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>)
+        <span class="pl-k">return</span> <span class="pl-s1">result</span>
+
+<span class="pl-c"># 创建二叉树实例</span>
+<span class="pl-s1">bt</span> <span class="pl-c1">=</span> <span class="pl-v">BinaryTree</span>()
+<span class="pl-s1">bt</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">bt</span>.<span class="pl-s1">root</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">bt</span>.<span class="pl-s1">root</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">bt</span>.<span class="pl-s1">root</span>.<span class="pl-s1">left</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">4</span>)
+<span class="pl-s1">bt</span>.<span class="pl-s1">root</span>.<span class="pl-s1">left</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">5</span>)
+
+<span class="pl-c"># DFS 先序遍历输出</span>
+<span class="pl-en">print</span>(<span class="pl-s">"DFS Preorder:"</span>, <span class="pl-s1">bt</span>.<span class="pl-en">dfs_preorder</span>())
+<span class="pl-c"># BFS 层次遍历输出</span>
+<span class="pl-en">print</span>(<span class="pl-s">"BFS:"</span>, <span class="pl-s1">bt</span>.<span class="pl-en">bfs</span>())</pre></div>
+<h3>计算树的高度和深度</h3>
+<ul>
+<li>计算树的高度：树的高度是从根节点到最远叶子节点的最长路径上的节点数。</li>
+<li>计算节点的深度：节点的深度是从根节点到该节点的路径上的节点数。</li>
+</ul>
+<div class="highlight highlight-source-python"><pre class="notranslate">    <span class="pl-k">def</span> <span class="pl-en">height</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">node</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">0</span>  <span class="pl-c"># 返回0，因为空树的高度为0</span>
+        <span class="pl-k">else</span>:
+            <span class="pl-c"># 递归计算左右子树的高度，取最大值，然后加1（加上当前节点）</span>
+            <span class="pl-s1">left_height</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">height</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>)
+            <span class="pl-s1">right_height</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">height</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>)
+            <span class="pl-k">return</span> <span class="pl-en">max</span>(<span class="pl-s1">left_height</span>, <span class="pl-s1">right_height</span>) <span class="pl-c1">+</span> <span class="pl-c1">1</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">depth</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">target</span>, <span class="pl-s1">current_depth</span><span class="pl-c1">=</span><span class="pl-c1">0</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">node</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">-</span><span class="pl-c1">1</span>  <span class="pl-c"># 如果节点不存在，则返回-1</span>
+        <span class="pl-k">if</span> <span class="pl-s1">node</span> <span class="pl-c1">==</span> <span class="pl-s1">target</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">current_depth</span>  <span class="pl-c"># 如果找到目标节点，返回当前深度</span>
+        <span class="pl-c"># 递归搜索左子树或右子树</span>
+        <span class="pl-s1">left_depth</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">depth</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">target</span>, <span class="pl-s1">current_depth</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>)
+        <span class="pl-k">if</span> <span class="pl-s1">left_depth</span> <span class="pl-c1">!=</span> <span class="pl-c1">-</span><span class="pl-c1">1</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">left_depth</span>  <span class="pl-c"># 如果左子树中找到目标节点，返回深度</span>
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">depth</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">target</span>, <span class="pl-s1">current_depth</span> <span class="pl-c1">+</span> <span class="pl-c1">1</span>)</pre></div>
+<ul>
+<li>例子</li>
+</ul>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-c"># 构建一个示例树：</span>
+<span class="pl-c">#         1</span>
+<span class="pl-c">#        / \</span>
+<span class="pl-c">#       2   3</span>
+<span class="pl-c">#      / \</span>
+<span class="pl-c">#     4   5</span>
+<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">1</span>)
+<span class="pl-s1">root</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">2</span>)
+<span class="pl-s1">root</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">3</span>)
+<span class="pl-s1">root</span>.<span class="pl-s1">left</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">4</span>)
+<span class="pl-s1">root</span>.<span class="pl-s1">left</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-c1">5</span>)
+
+<span class="pl-s1">tree</span> <span class="pl-c1">=</span> <span class="pl-v">BinaryTree</span>(<span class="pl-s1">root</span>)
+
+<span class="pl-c"># 计算整个树的高度</span>
+<span class="pl-en">print</span>(<span class="pl-s">"Height of the tree:"</span>, <span class="pl-s1">tree</span>.<span class="pl-en">height</span>(<span class="pl-s1">tree</span>.<span class="pl-s1">root</span>))  <span class="pl-c"># 应输出3</span>
+
+<span class="pl-c"># 计算特定节点的深度，例如节点4</span>
+<span class="pl-s1">node_to_find_depth</span> <span class="pl-c1">=</span> <span class="pl-s1">root</span>.<span class="pl-s1">left</span>.<span class="pl-s1">left</span>  <span class="pl-c"># 节点4</span>
+<span class="pl-en">print</span>(<span class="pl-s">"Depth of node 4:"</span>, <span class="pl-s1">tree</span>.<span class="pl-en">depth</span>(<span class="pl-s1">tree</span>.<span class="pl-s1">root</span>, <span class="pl-s1">node_to_find_depth</span>))  <span class="pl-c"># 应输出2</span></pre></div>
+<h2>二叉搜索树</h2>
+<h3>实现</h3>
+<div class="highlight highlight-source-python"><pre class="notranslate"><span class="pl-k">class</span> <span class="pl-v">TreeNode</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span><span class="pl-c1">=</span><span class="pl-c1">0</span>, <span class="pl-s1">left</span><span class="pl-c1">=</span><span class="pl-c1">None</span>, <span class="pl-s1">right</span><span class="pl-c1">=</span><span class="pl-c1">None</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">value</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-s1">left</span>
+        <span class="pl-s1">self</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-s1">right</span>
+
+<span class="pl-k">class</span> <span class="pl-v">BinarySearchTree</span>:
+    <span class="pl-k">def</span> <span class="pl-en">__init__</span>(<span class="pl-s1">self</span>, <span class="pl-s1">root</span><span class="pl-c1">=</span><span class="pl-c1">None</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-s1">root</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">insert</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
         <span class="pl-k">if</span> <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
             <span class="pl-s1">self</span>.<span class="pl-s1">root</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
         <span class="pl-k">else</span>:
-            <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
-    
-    <span class="pl-k">def</span> <span class="pl-en">_insert_recursive</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
-        <span class="pl-s">"""递归插入值"""</span>
+            <span class="pl-s1">self</span>.<span class="pl-en">_insert</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
+
+    <span class="pl-k">def</span> <span class="pl-en">_insert</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
         <span class="pl-k">if</span> <span class="pl-s1">value</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
             <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
                 <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
             <span class="pl-k">else</span>:
-                <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
-        <span class="pl-k">else</span>:
+                <span class="pl-s1">self</span>.<span class="pl-en">_insert</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
+        <span class="pl-k">elif</span> <span class="pl-s1">value</span> <span class="pl-c1">&gt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
             <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
                 <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">=</span> <span class="pl-v">TreeNode</span>(<span class="pl-s1">value</span>)
             <span class="pl-k">else</span>:
-                <span class="pl-s1">self</span>.<span class="pl-en">_insert_recursive</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)</pre></div>
-<h2>红黑树</h2>
+                <span class="pl-s1">self</span>.<span class="pl-en">_insert</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)
+        <span class="pl-c"># 如果value等于node.value，则不插入，因为BST不允许重复值</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">search</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_search</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
+
+    <span class="pl-k">def</span> <span class="pl-en">_search</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">node</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">False</span>
+        <span class="pl-k">if</span> <span class="pl-s1">value</span> <span class="pl-c1">==</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">True</span>
+        <span class="pl-k">elif</span> <span class="pl-s1">value</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_search</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
+        <span class="pl-k">else</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_search</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)</pre></div>
+<h3>插入与删除</h3>
+<ul>
+<li>插入操作：在二叉搜索树中，插入操作需要保持树的有序性，即左子节点的值小于根节点，右子节点的值大于根节点。</li>
+<li>删除操作：删除操作较复杂，分为几种情况处理，如被删除节点没有子节点、有一个子节点或有两个子节点。</li>
+</ul>
+<div class="highlight highlight-source-python"><pre class="notranslate">    <span class="pl-k">def</span> <span class="pl-en">delete</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
+        <span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">deleted</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">_delete</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
+        <span class="pl-k">return</span> <span class="pl-s1">deleted</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">_delete</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">node</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">node</span>, <span class="pl-c1">False</span>
+
+        <span class="pl-s1">deleted</span> <span class="pl-c1">=</span> <span class="pl-c1">False</span>
+        <span class="pl-k">if</span> <span class="pl-s1">value</span> <span class="pl-c1">==</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-s1">deleted</span> <span class="pl-c1">=</span> <span class="pl-c1">True</span>
+            <span class="pl-c"># Node with only one child or no child</span>
+            <span class="pl-k">if</span> <span class="pl-s1">node</span>.<span class="pl-s1">left</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+                <span class="pl-k">return</span> <span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">deleted</span>
+            <span class="pl-k">elif</span> <span class="pl-s1">node</span>.<span class="pl-s1">right</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+                <span class="pl-k">return</span> <span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">deleted</span>
+            <span class="pl-k">else</span>:
+                <span class="pl-c"># Node with two children: Get the inorder successor</span>
+                <span class="pl-s1">temp</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">_find_min</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>)
+                <span class="pl-s1">node</span>.<span class="pl-s1">value</span> <span class="pl-c1">=</span> <span class="pl-s1">temp</span>.<span class="pl-s1">value</span>
+                <span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">_</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">_delete</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">temp</span>.<span class="pl-s1">value</span>)
+        <span class="pl-k">elif</span> <span class="pl-s1">value</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">deleted</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">_delete</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
+        <span class="pl-k">else</span>:
+            <span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">deleted</span> <span class="pl-c1">=</span> <span class="pl-s1">self</span>.<span class="pl-en">_delete</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)
+
+        <span class="pl-k">return</span> <span class="pl-s1">node</span>, <span class="pl-s1">deleted</span></pre></div>
+<h3>查找</h3>
+<ul>
+<li>查找最小值和最大值：在二叉搜索树中，最小值通常在最左边，最大值在最右边。</li>
+</ul>
+<div class="highlight highlight-source-python"><pre class="notranslate">    <span class="pl-k">def</span> <span class="pl-en">find_min</span>(<span class="pl-s1">self</span>):
+        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">self</span>.<span class="pl-s1">root</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">None</span>
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_find_min</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>).<span class="pl-s1">value</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">_find_min</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">node</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>.<span class="pl-s1">left</span> <span class="pl-c1">is</span> <span class="pl-c1">not</span> <span class="pl-c1">None</span>:
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">left</span>
+        <span class="pl-k">return</span> <span class="pl-s1">current</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">find_max</span>(<span class="pl-s1">self</span>):
+        <span class="pl-k">if</span> <span class="pl-c1">not</span> <span class="pl-s1">self</span>.<span class="pl-s1">root</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">None</span>
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_find_max</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>).<span class="pl-s1">value</span>
+
+    <span class="pl-k">def</span> <span class="pl-en">_find_max</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>):
+        <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">node</span>
+        <span class="pl-k">while</span> <span class="pl-s1">current</span>.<span class="pl-s1">right</span> <span class="pl-c1">is</span> <span class="pl-c1">not</span> <span class="pl-c1">None</span>:
+            <span class="pl-s1">current</span> <span class="pl-c1">=</span> <span class="pl-s1">current</span>.<span class="pl-s1">right</span>
+        <span class="pl-k">return</span> <span class="pl-s1">current</span></pre></div>
+<ul>
+<li>搜索特定值：可以通过比较节点值进行。</li>
+</ul>
+<div class="highlight highlight-source-python"><pre class="notranslate">    <span class="pl-k">def</span> <span class="pl-en">search</span>(<span class="pl-s1">self</span>, <span class="pl-s1">value</span>):
+        <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_search</span>(<span class="pl-s1">self</span>.<span class="pl-s1">root</span>, <span class="pl-s1">value</span>)
+
+    <span class="pl-k">def</span> <span class="pl-en">_search</span>(<span class="pl-s1">self</span>, <span class="pl-s1">node</span>, <span class="pl-s1">value</span>):
+        <span class="pl-k">if</span> <span class="pl-s1">node</span> <span class="pl-c1">is</span> <span class="pl-c1">None</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">False</span>
+        <span class="pl-k">if</span> <span class="pl-s1">value</span> <span class="pl-c1">==</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-k">return</span> <span class="pl-c1">True</span>
+        <span class="pl-k">elif</span> <span class="pl-s1">value</span> <span class="pl-c1">&lt;</span> <span class="pl-s1">node</span>.<span class="pl-s1">value</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_search</span>(<span class="pl-s1">node</span>.<span class="pl-s1">left</span>, <span class="pl-s1">value</span>)
+        <span class="pl-k">else</span>:
+            <span class="pl-k">return</span> <span class="pl-s1">self</span>.<span class="pl-en">_search</span>(<span class="pl-s1">node</span>.<span class="pl-s1">right</span>, <span class="pl-s1">value</span>)</pre></div>
+<h2>特殊树</h2>
+<ul>
+<li>AVL树：一种自平衡的二叉搜索树，任一节点对应两个子树的高度最大差别为一。</li>
+<li>红黑树：一种自平衡的二叉搜索树，通过颜色和旋转规则来保持树的平衡。</li>
+<li>线段树：用于存储区间或线段，并允许查找所有包含特定点的区间。</li>
+<li>B树和B+树：这些是多路平衡查找树，广泛用于数据库和文件系统。</li>
+<li>涉及：<br>
+- 旋转操作：在AVL树或红黑树中，通过左旋和右旋操作来保持树的平衡。<br>
+- 重新平衡：在插入或删除节点后重新平衡树，保证操作的时间复杂度为对数级。</li>
+</ul>
 <h1>图</h1>
 <h2>遍历</h2>
 <h2>最短路径</h2>
