@@ -15,6 +15,12 @@
 ## Awards
 - China National Scholarship, Tianjin Government Scholarship, Nankai Gong-Neng Scholarship, China National Encouragement Scholarship, Nankai Ming-Shan-Yun-Neng Scholarship
 
+## Collaborators
+- Xuyao Wang
+- Yanduo Fu
+- Yihe Duan
+- Lianru Gao
+- Yingxu Huang
 ## Services:
 (Sub)Reviewer for CCS2023, EMNLP 2022, TBD 2022, WASA 2022, EACL 2023
 
