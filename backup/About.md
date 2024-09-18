@@ -16,6 +16,8 @@
 - China National Scholarship, Tianjin Government Scholarship, Nankai Gong-Neng Scholarship, China National Encouragement Scholarship, Nankai Ming-Shan-Yun-Neng Scholarship
 
 ## Collaborators
+- Lijie Hu
+- Tianhao Huang
 - Xuyao Wang
 - Yanduo Fu
 - Yihe Duan
