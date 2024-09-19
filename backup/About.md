@@ -8,21 +8,21 @@
 
 ## Interests: 
 
-- Machine Learning,
+- Machine Learning
 - Machine Learning Security
-- Large Model Security
+- Large Language Model Security
 
 ## Awards
 - China National Scholarship, Tianjin Government Scholarship, Nankai Gong-Neng Scholarship, China National Encouragement Scholarship, Nankai Ming-Shan-Yun-Neng Scholarship
 
 ## Collaborators
-- Lijie Hu
-- Tianhao Huang
-- Xuyao Wang
-- Yanduo Fu
-- Yihe Duan
-- Lianru Gao
-- Yingxu Huang
+- Lijie Hu (KAUST)
+- Tianhao Huang (ASU)
+- Xuyao Wang (PKU)
+- Yanduo Fu (NKU)
+- Yihe Duan (NKU)
+- Lianru Gao (NKU)
+- Yingxu Huang (UESTC)
 ## Services:
 (Sub)Reviewer for CCS2023, EMNLP 2022, TBD 2022, WASA 2022, EACL 2023
 
