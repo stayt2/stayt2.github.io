@@ -29,3 +29,6 @@
 - Teaching Assistant for Deep Learning 2024 Fall in Nankai University
 - Teaching Assistant for Linear Algebra 2024 Spring in Nankai University
 - Teaching Assistant for Python 2022-2024 in Nankai University
+
+> [!NOTE]
+> We choose to go to the Moon! We choose to go to the Moon in this decade and do the other things, not because they are easy, but because they are hard; because that goal will serve to organize and measure the best of our energies and skills, because that challenge is one that we are willing to accept, one we are unwilling to postpone, and one we intend to win, and the others, too. 
