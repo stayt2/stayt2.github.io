@@ -1,5 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title> </title><link>https://stayt2.github.io</link><description> </description><copyright> </copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://stayt2.github.io/touxiang.jpg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Thu, 26 Sep 2024 12:06:37 +0000</lastBuildDate><managingEditor> </managingEditor><ttl>60</ttl><webMaster> </webMaster><item><title>会批评你的人都是你的贵人</title><link>https://stayt2.github.io/post/hui-pi-ping-ni-de-ren-du-shi-ni-de-gui-ren.html</link><description>年轻的时候心高气傲，面对他人的批评常常认为是挑衅、找茬、无理取闹，很少安静地审视自己的错误。</description><guid isPermaLink="true">https://stayt2.github.io/post/hui-pi-ping-ni-de-ren-du-shi-ni-de-gui-ren.html</guid><pubDate>Thu, 26 Sep 2024 12:06:12 +0000</pubDate></item><item><title>编辑距离</title><link>https://stayt2.github.io/post/bian-ji-ju-li.html</link><description># 相隔为1的编辑距离&#13;
+<rss xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/" version="2.0"><channel><title> </title><link>https://stayt2.github.io</link><description> </description><copyright> </copyright><docs>http://www.rssboard.org/rss-specification</docs><generator>python-feedgen</generator><image><url>https://stayt2.github.io/touxiang.jpg</url><title>avatar</title><link>https://stayt2.github.io</link></image><lastBuildDate>Thu, 26 Sep 2024 12:08:02 +0000</lastBuildDate><managingEditor> </managingEditor><ttl>60</ttl><webMaster> </webMaster><item><title>Advice for ambitious 19 year olds</title><link>https://stayt2.github.io/post/Advice%20for%20ambitious%2019%20year%20olds.html</link><description>OpenAI 创始人 Sam Altman 博客有一篇 10 年前的文章《Advice for ambitious 19 year olds》，给 19 岁年轻人的建议&#13;
+&#13;
+**太长不读纯摘要版本如下：**&#13;
+1. 与聪明的人一起共事&#13;
+2. 做有价值的的事&#13;
+3. 承担适当的风险 &#13;
+4. 如果上学请确保学到有价值的东西&#13;
+5. 如果加入一家公司，建议加入正在上升的创业公司 &#13;
+6. 不要让薪水成为主要决策因素&#13;
+7. 只有在你真正热爱这个想法时才去创办公司。</description><guid isPermaLink="true">https://stayt2.github.io/post/Advice%20for%20ambitious%2019%20year%20olds.html</guid><pubDate>Thu, 26 Sep 2024 12:07:38 +0000</pubDate></item><item><title>会批评你的人都是你的贵人</title><link>https://stayt2.github.io/post/hui-pi-ping-ni-de-ren-du-shi-ni-de-gui-ren.html</link><description>年轻的时候心高气傲，面对他人的批评常常认为是挑衅、找茬、无理取闹，很少安静地审视自己的错误。</description><guid isPermaLink="true">https://stayt2.github.io/post/hui-pi-ping-ni-de-ren-du-shi-ni-de-gui-ren.html</guid><pubDate>Thu, 26 Sep 2024 12:06:12 +0000</pubDate></item><item><title>编辑距离</title><link>https://stayt2.github.io/post/bian-ji-ju-li.html</link><description># 相隔为1的编辑距离&#13;
 - https://leetcode.cn/problems/one-edit-distance/description/&#13;
 &#13;
 # 文本纠错&#13;
